@@ -1,0 +1,15 @@
+{
+  "name": "rest-assured-esp32-bridge",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "WebSocket <-> SerialPort bridge for ESP32 neopixel control.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "serialport": "^13.0.0",
+    "ws": "^8.18.3"
+  }
+}
+
