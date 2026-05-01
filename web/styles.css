@@ -83,17 +83,6 @@ body{
   max-height: 100%;
 }
 
-/* Hero figurine frame: responsive using vw/vh, fixed aspect ratio. */
-.figurine-hero{
-  position: absolute;
-  left: 317px;
-  top: 266px;
-  /* 1059 / 1728 ~= 61.285vw; 660.491 / 1117 ~= 59.131vh
-     Preserve aspect ratio by constraining width with both vw and vh. */
-  width: min(61.285vw, 94.784vh);
-  aspect-ratio: 1059 / 660.491;
-}
-
 /* Buttons */
 .btn{
   height:74px;
