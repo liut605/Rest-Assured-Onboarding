@@ -6,12 +6,18 @@ function updateScale() {
   const stage = document.querySelector(".stage");
   if (!stage) return;
 
-  // Full-screen: scale to cover the viewport (no letterboxing).
-  const vw = Math.max(320, window.innerWidth);
-  const vh = Math.max(320, window.innerHeight);
+  // Use VisualViewport when available (more accurate on some systems where
+  // browser UI/chrome affects innerWidth/innerHeight).
+  const vv = window.visualViewport;
+  const vw = Math.max(320, vv?.width ?? window.innerWidth);
+  const vh = Math.max(320, vv?.height ?? window.innerHeight);
 
-  // Allow scaling up on large desktop displays.
-  const scale = Math.max(vw / BASE_W, vh / BASE_H);
+  // Default behavior is "contain" to avoid cropping on unknown monitor ratios.
+  // Opt into "cover" per-page with: <main class="stage" data-scale="cover" ...>
+  const mode = (stage.getAttribute("data-scale") || "contain").toLowerCase();
+  const containScale = Math.min(vw / BASE_W, vh / BASE_H);
+  const coverScale = Math.max(vw / BASE_W, vh / BASE_H);
+  const scale = mode === "cover" ? coverScale : containScale;
   stage.style.setProperty("--scale", String(scale));
 }
 
