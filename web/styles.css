@@ -25,17 +25,19 @@ body{
   position:relative;
   width:100vw;
   height:100vh;
-  overflow:hidden;
+  /* Center the artboard while allowing fallback scroll instead of cropping. */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
 }
 
 .stage{
   width:1728px;
   height:1117px;
-  position:absolute;
-  left:50%;
-  top:50%;
+  position:relative;
+  /* Centering is handled by .viewport flexbox. */
   transform: scale(var(--scale));
-  transform: translate(-50%, -50%) scale(var(--scale));
   transform-origin: center;
   border-radius: 0;
   overflow:hidden;
