@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>913:2849 — Lamp light feedback (in bed)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../app.js"></script>
+    <script defer src="../interactions.js"></script>
+  </head>
+  <body>
+    <div class="viewport">
+      <main
+        class="stage"
+        data-node-id="913-2849"
+        data-advance="none"
+        data-neopixel='{"state":"off"}'
+        style="background: #fff"
+      >
+        <style>
+          .lamp-bed-flow {
+            position: absolute;
+            inset: 0;
+          }
+          .lamp-bed-flow .state {
+            position: absolute;
+            inset: 0;
+          }
+          .lamp-bed-flow .state-b {
+            opacity: 0;
+            animation: lampBedSwap 720ms ease forwards;
+            animation-delay: 500ms;
+          }
+          @keyframes lampBedSwap {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .lamp-bed-flow .state-b {
+              animation: none;
+              opacity: 1;
+            }
+          }
+        </style>
+
+        <div class="lamp-bed-flow" aria-hidden="true">
+          <!-- State A (913:2814) -->
+          <div class="state state-a">
+            <div
+              style="
+                position: absolute;
+                left: -1px;
+                top: 0;
+                width: 866px;
+                height: 1117px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                src="https://www.figma.com/api/mcp/asset/9b65eb2d-dfd7-44e2-8502-2663b84e09fc"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 196px;
+                top: 809px;
+                width: 667px;
+                height: 308px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                src="https://www.figma.com/api/mcp/asset/1cb8fb41-f772-4972-88c5-66295ae1f656"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 863px;
+                top: 0;
+                width: 865px;
+                height: 1117px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                src="https://www.figma.com/api/mcp/asset/c225b3a5-a48b-4f5b-8d86-93a1078e537c"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 863px;
+                top: 0;
+                width: 0;
+                height: 1117px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div style="transform: rotate(90deg)">
+                <div style="position: relative; width: 1117px; height: 0">
+                  <img
+                    class="img"
+                    alt=""
+                    src="https://www.figma.com/api/mcp/asset/203af612-25bf-4d3c-94eb-4bd56ad3ede4"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 196px;
+                top: 809px;
+                width: 667px;
+                height: 151px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                src="https://www.figma.com/api/mcp/asset/fbbff028-78fe-45b1-9fcd-7e58fe395a93"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 330px;
+                top: 665px;
+                width: 401.573px;
+                height: 250.458px;
+              "
+            >
+              <div style="position: absolute; inset: -0.2% 0 0 -0.12%">
+                <img
+                  class="img"
+                  alt="Figurine"
+                  src="https://www.figma.com/api/mcp/asset/33b75e85-8523-4bce-a953-8fa947a2748a"
+                />
+              </div>
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 865px;
+                top: 646px;
+                width: 865px;
+                height: 471px;
+              "
+            >
+              <div style="position: absolute; inset: -0.11% 0 0 -0.12%">
+                <img
+                  class="img"
+                  alt=""
+                  src="https://www.figma.com/api/mcp/asset/fe3f7434-445d-4f65-a4ca-81d6119b6e49"
+                />
+              </div>
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 998px;
+                top: 526px;
+                width: 117px;
+                height: 187px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                style="object-fit: cover; pointer-events: none"
+                src="https://www.figma.com/api/mcp/asset/9f10a870-e1c7-466d-8639-d744f12296e9"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 1011px;
+                top: 665px;
+                width: 147px;
+                height: 220px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                style="object-fit: cover; pointer-events: none"
+                src="https://www.figma.com/api/mcp/asset/c3b27197-9bc6-4b6b-b96c-a41f5b9d85b6"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 1153px;
+                top: 512px;
+                width: 659.513px;
+                height: 355.562px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div style="transform: rotate(-5.52deg)">
+                <div style="position: relative; width: 634px; height: 296px">
+                  <img
+                    class="img"
+                    alt=""
+                    style="object-fit: cover; pointer-events: none"
+                    src="https://www.figma.com/api/mcp/asset/fc697583-39b8-4959-998c-f959bb24ab99"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- State B (913:2849) -->
+          <div class="state state-b">
+            <h1
+              class="playfair"
+              style="
+                position: absolute;
+                z-index: 5;
+                left: 0;
+                top: 152px;
+                width: 1728px;
+                margin: 0;
+                font-size: 48px;
+                line-height: 1.2;
+                text-align: center;
+                color: #000;
+              "
+            >
+              As a reminder, the figurine shines when I’m in my bed!
+            </h1>
+            <div
+              style="
+                position: absolute;
+                left: -1px;
+                top: 0;
+                width: 866px;
+                height: 1117px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                src="https://www.figma.com/api/mcp/asset/f38eb044-7252-4010-800e-ae0b751cc110"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 863px;
+                top: 0;
+                width: 865px;
+                height: 1117px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                src="https://www.figma.com/api/mcp/asset/4a1fe2d6-a61f-4525-9391-8b9dd27f0f27"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 196px;
+                top: 0;
+                width: 667px;
+                height: 1117px;
+              "
+            >
+              <div style="position: absolute; inset: 0 -0.3% 0 0">
+                <img
+                  class="img"
+                  alt=""
+                  src="https://www.figma.com/api/mcp/asset/9b1f24d7-91f6-4831-a744-31372dc1813f"
+                />
+              </div>
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 865px;
+                top: 646px;
+                width: 865px;
+                height: 471px;
+              "
+            >
+              <div style="position: absolute; inset: -0.11% 0 0 -0.12%">
+                <img
+                  class="img"
+                  alt=""
+                  src="https://www.figma.com/api/mcp/asset/7e81547f-9402-46d9-974d-290683ba866b"
+                />
+              </div>
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 342px;
+                top: 617px;
+                width: 378px;
+                height: 260px;
+              "
+            >
+              <div style="position: absolute; inset: -27% -19% -27% -19%">
+                <img
+                  class="img"
+                  alt=""
+                  src="https://www.figma.com/api/mcp/asset/1925264e-32b3-400c-9046-bb60cc3e6584"
+                />
+              </div>
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 330px;
+                top: 665px;
+                width: 401.573px;
+                height: 250.458px;
+              "
+            >
+              <div style="position: absolute; inset: -0.2% 0 0 -0.12%">
+                <img
+                  class="img"
+                  alt="Figurine"
+                  src="https://www.figma.com/api/mcp/asset/d5e3893b-6628-48a0-bb64-fb2ac6796e3a"
+                />
+              </div>
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 998px;
+                top: 526px;
+                width: 117px;
+                height: 187px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                style="object-fit: cover; pointer-events: none"
+                src="https://www.figma.com/api/mcp/asset/4c0611b0-5b9e-41dc-ba69-d34cb12caf05"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 1021px;
+                top: 665px;
+                width: 147px;
+                height: 220px;
+              "
+            >
+              <img
+                class="img"
+                alt=""
+                style="object-fit: cover; pointer-events: none"
+                src="https://www.figma.com/api/mcp/asset/8f309bf4-9cd2-4fb3-8881-61aa75cc7f4e"
+              />
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 1153px;
+                top: 512px;
+                width: 659.513px;
+                height: 355.562px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div style="transform: rotate(-5.52deg)">
+                <div style="position: relative; width: 634px; height: 296px">
+                  <img
+                    class="img"
+                    alt=""
+                    style="object-fit: cover; pointer-events: none"
+                    src="https://www.figma.com/api/mcp/asset/558f0c29-1803-4edf-8187-7ebbb9347b03"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              style="
+                position: absolute;
+                left: 1377px;
+                top: 526px;
+                width: 297.691px;
+                height: 202px;
+              "
+            >
+              <div style="position: absolute; inset: -0.25% -0.17%">
+                <img
+                  class="img"
+                  alt=""
+                  src="https://www.figma.com/api/mcp/asset/f90f10a6-49f6-47e2-b1a0-f8f1feaed91e"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a
+          class="btn btn-outline"
+          href="./1110-3455.html"
+          style="
+            position: absolute;
+            left: 100px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
+          >Back</a
+        >
+        <a
+          class="btn btn-outline"
+          href="./913-3055.html"
+          style="
+            position: absolute;
+            left: 1253px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
+          >Next</a
+        >
+      </main>
+    </div>
+  </body>
+</html>

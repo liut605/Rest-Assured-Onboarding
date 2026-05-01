@@ -48,7 +48,11 @@ const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
 const wss = new WebSocketServer({ port: WS_PORT });
 
 function writeLine(line) {
-  port.write(`${line}\n`);
+  console.log(`[serial->esp32] ${line}`);
+  port.write(`${line}\n`, (err) => {
+    if (err) console.error(`[serial->esp32] write error`, err);
+    port.drain(() => {});
+  });
 }
 
 function normalizeState(state) {
@@ -72,6 +76,7 @@ wss.on("connection", (ws) => {
     if (msg?.type === "neopixel:set") {
       const state = normalizeState(msg.state);
       if (!state) return;
+      console.log(`[ws<-web] neopixel:set ${state}`);
       // Serial protocol: "<state>\\n"
       // (matches Arduino-side line parsing; simplest for now)
       writeLine(state);
@@ -84,6 +89,8 @@ wss.on("connection", (ws) => {
 parser.on("data", (line) => {
   const text = String(line).trim();
   if (!text) return;
+  // Debug: confirm what we receive from ESP32
+  console.log(`[serial<-esp32] ${text}`);
   // Web forwards `device:line` to the page; match there for capacitive touch, etc.
   // Try-speaker (905-1679): one line per threshold crossing — e.g. 1) reveal Continue,
   // 2) go to next scene, 3) reveal Back/Next. Serial.println("CAP_TOUCH");

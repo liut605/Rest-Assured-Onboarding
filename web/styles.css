@@ -149,6 +149,70 @@ body{
   pointer-events:none !important;
 }
 
+/* Diffuser feedback mist loop (905:2458 + 905:2711) */
+.mist{
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+  transform-origin: center;
+}
+.mist img{
+  filter: blur(0.2px);
+}
+.mist-1{
+  animation: mistDrift1 1500ms ease-in-out infinite alternate;
+}
+.mist-2{
+  animation: mistDrift2 2150ms ease-in-out infinite alternate;
+}
+@keyframes mistDrift1{
+  0%{ transform: translate(-3px, 2px) scale(0.98); opacity: 0.75; filter: blur(0px); }
+  55%{ transform: translate(2px, -1px) scale(1.02); opacity: 0.9; }
+  100%{ transform: translate(6px, 3px) scale(1.06); opacity: 1; filter: blur(0.35px); }
+}
+@keyframes mistDrift2{
+  0%{ transform: translate(4px, -2px) scale(0.98); opacity: 0.7; filter: blur(0.1px); }
+  50%{ transform: translate(-2px, 2px) scale(1.03); opacity: 0.9; }
+  100%{ transform: translate(-7px, -3px) scale(1.07); opacity: 1; filter: blur(0.45px); }
+}
+
+/* Congrats loop (Crimson.svg -> Crimson-3.svg) */
+.crimson-stage{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+.crimson-frame{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  will-change: opacity, transform;
+  transform-origin:center;
+}
+.crimson-frame--a{
+  opacity: 1;
+  animation: crimsonA 3200ms ease-in-out infinite;
+}
+.crimson-frame--b{
+  opacity: 0;
+  animation: crimsonB 3200ms ease-in-out infinite;
+}
+@keyframes crimsonA{
+  0%{ opacity:1; transform: scale(1); }
+  55%{ opacity:1; transform: scale(1); }
+  68%{ opacity:0; transform: scale(1.01); }
+  92%{ opacity:0; transform: scale(1.01); }
+  100%{ opacity:1; transform: scale(1); }
+}
+@keyframes crimsonB{
+  0%{ opacity:0; transform: scale(0.99); }
+  55%{ opacity:0; transform: scale(0.99); }
+  68%{ opacity:1; transform: scale(1); }
+  92%{ opacity:1; transform: scale(1); }
+  100%{ opacity:0; transform: scale(0.99); }
+}
+
 /* In-page flow: try speaker (905 / 801 / 868) */
 .speaker-try{ position:relative; }
 .speaker-try .sp-scene{
@@ -160,15 +224,33 @@ body{
   display:block;
 }
 
-/* Intro + classical / soundwaves (905:1216 + 801:1048) */
-.sound-flow{ position:relative; }
-.sound-flow .sound-scene{
+/* In-page flow: try diffuser (809 / 905) */
+.diffuser-try{ position:relative; }
+.diffuser-try .df-scene{
   position:absolute;
   inset:0;
   display:none;
 }
-.sound-flow .sound-scene.is-active{
+.diffuser-try .df-scene.is-active{
   display:block;
+}
+
+/* Diffuser overlay (Subtract) animation */
+.diffuser-try .df-subtract{
+  transform-origin: center;
+  will-change: transform, opacity, filter;
+}
+.diffuser-try .df-scene.is-active .df-subtract{
+  opacity: 1;
+}
+/* Loop forever (until BUTTON navigates away). Moves on x+y axis. */
+.diffuser-try:not(.df-button-received) .df-subtract{
+  animation: dfSubtractDrift 1050ms ease-in-out infinite alternate;
+}
+@keyframes dfSubtractDrift{
+  0%{ transform: translate(-10px, 8px); filter: blur(0px); }
+  50%{ transform: translate(6px, -4px); }
+  100%{ transform: translate(12px, 10px); }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -177,6 +259,17 @@ body{
     opacity: 1;
     transform: none;
     animation: none;
+  }
+  .mist-1, .mist-2{
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .crimson-frame--a, .crimson-frame--b{
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }
 

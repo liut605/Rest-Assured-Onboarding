@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>1110:3455 — Congrats loop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../app.js"></script>
+    <script defer src="../interactions.js"></script>
+  </head>
+  <body>
+    <div class="viewport">
+      <main
+        class="stage"
+        data-node-id="1110-3455"
+        data-advance="none"
+        data-neopixel='{"state":"diffuser_on"}'
+        style="background: #c4cecb"
+      >
+        <div class="table" style="height: 413px" aria-hidden="true"></div>
+
+        <h1
+          class="playfair"
+          style="
+            position: absolute;
+            left: 0;
+            top: 150px;
+            width: 1728px;
+            margin: 0;
+            font-size: 48px;
+            line-height: 1.2;
+            text-align: center;
+            color: #000;
+          "
+        >
+          Good job hooman!
+        </h1>
+
+        <!-- Loop between the provided SVG states: Crimson -> Crimson 3 -->
+        <div class="crimson-stage" aria-hidden="true">
+          <img class="crimson-frame crimson-frame--a" alt="" src="../assets/Crimson.svg" />
+          <img class="crimson-frame crimson-frame--b" alt="" src="../assets/Crimson-3.svg" />
+        </div>
+
+        <a
+          class="btn btn-outline"
+          href="./913-2911.html"
+          style="position: absolute; left: 100px; top: 953px; width: 375px; z-index: 3"
+          >Back</a
+        >
+        <a
+          class="btn btn-outline"
+          href="./913-2849.html"
+          style="position: absolute; left: 1253px; top: 953px; width: 375px; z-index: 3"
+          >Next</a
+        >
+      </main>
+    </div>
+  </body>
+</html>
+
