@@ -83,6 +83,13 @@ body{
   max-height: 100%;
 }
 
+/* Option A: scale by width, keep intrinsic aspect ratio */
+.img-fit-width{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* Buttons */
 .btn{
   height:74px;
