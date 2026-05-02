@@ -208,6 +208,28 @@ body {
 .mist-2 {
   animation: mistDrift2 2150ms ease-in-out infinite alternate;
 }
+/* Speaker feedback loop (soundwave pulse) */
+.speaker-pulse {
+  position: relative;
+}
+.speaker-pulse .speaker-core {
+  position: relative;
+  z-index: 2;
+}
+.speaker-pulse .speaker-wave {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform-origin: center;
+  opacity: 0.65;
+}
+.speaker-pulse .speaker-wave--a {
+  animation: speakerWaveA 1150ms ease-in-out infinite;
+}
+.speaker-pulse .speaker-wave--b {
+  animation: speakerWaveB 1450ms ease-in-out infinite;
+}
 @keyframes mistDrift1 {
   0% {
     transform: translate(-3px, 2px) scale(0.98);
@@ -238,6 +260,34 @@ body {
     transform: translate(-7px, -3px) scale(1.07);
     opacity: 1;
     filter: blur(0.45px);
+  }
+}
+@keyframes speakerWaveA {
+  0% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0.35;
+    transform: scale(1.08);
+  }
+}
+@keyframes speakerWaveB {
+  0% {
+    opacity: 0.25;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.25;
+    transform: scale(1.12);
   }
 }
 
@@ -377,6 +427,12 @@ body {
     opacity: 1;
     transform: none;
     filter: none;
+  }
+  .speaker-pulse .speaker-wave--a,
+  .speaker-pulse .speaker-wave--b {
+    animation: none;
+    opacity: 0.7;
+    transform: none;
   }
   .crimson-frame--a,
   .crimson-frame--b {
