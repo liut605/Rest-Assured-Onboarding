@@ -27,94 +27,309 @@
 
         <h1
           class="playfair"
-          style="position: absolute; left: 0; top: 150px; width: 1728px; margin: 0; font-size: 48px; line-height: 1.2; text-align: center; color: #000"
+          style="
+            position: absolute;
+            left: 0;
+            top: 150px;
+            width: 1728px;
+            margin: 0;
+            font-size: 48px;
+            line-height: 1.2;
+            text-align: center;
+            color: #000;
+          "
         >
           See it at a glance!
         </h1>
 
-        <p class="inter" style="position: absolute; left: 0; top: 500px; width: 1728px; margin: 0; font-size: 40px; font-weight: 700; text-align: center; color: #000">
-          <span style="display: inline-block; width: 800px; transform: translateX(-200px)">I’m not in bed(Off)</span>
-          <span style="display: inline-block; width: 800px; transform: translateX(200px)">I’m in bed (On)</span>
-        </p>
-
-        <!-- Top row thumbnails -->
-        <div style="position: absolute; left: 302.18px; top: 272.83px; width: 289.907px; height: 180.813px">
-          <img class="img" alt="" src="https://www.figma.com/api/mcp/asset/a6ad4f0b-6f15-40ce-a2c7-20d77f5722a9" />
-        </div>
-        <div style="position: absolute; left: 619.24px; top: 272.83px; width: 226.341px; height: 157.79px">
-          <div style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
-            <img alt="" style="position: absolute; height: 136.32%; left: -5.02%; top: -36.29%; width: 110.39%" src="https://www.figma.com/api/mcp/asset/f2a3b4c3-591f-4f4a-8f6c-c929b319ac82" />
-          </div>
-        </div>
-
-        <div style="position: absolute; left: 932.19px; top: 262px; width: 252.036px; height: 156.568px">
-          <div style="position: absolute; inset: -25.62% -15.92%">
-            <img class="img" alt="" src="https://www.figma.com/api/mcp/asset/82a6dcf6-0b0a-45ed-a344-9a42d6042daf" />
-          </div>
-        </div>
-        <div style="position: absolute; left: 913.09px; top: 289.11px; width: 289.907px; height: 180.813px">
-          <img class="img" alt="" src="https://www.figma.com/api/mcp/asset/ff3cc182-a5d0-4c20-948d-b1ea3c935c45" />
-        </div>
-        <div style="position: absolute; left: 1230.16px; top: 289.11px; width: 226.341px; height: 157.79px">
-          <div style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
-            <img alt="" style="position: absolute; height: 142.01%; left: -7.35%; top: -37.4%; width: 114.89%" src="https://www.figma.com/api/mcp/asset/bbaf3f10-9ed4-4893-8fae-b00d9b56d4cc" />
-          </div>
-        </div>
-
-        <!-- Bottom row -->
-        <div style="position: absolute; left: 322.47px; top: 584.54px; width: 267.847px; height: 166.39px">
-          <div style="position: absolute; inset: -25.62% -15.92%">
-            <img class="img" alt="" src="https://www.figma.com/api/mcp/asset/df4da304-f071-43a6-9da0-b9bc6e4f9545" />
-          </div>
-        </div>
-        <div style="position: absolute; left: 314.89px; top: 611.05px; width: 320.465px; height: 197.265px">
-          <div style="position: absolute; inset: -0.2% 0 0 -0.12%">
-            <img class="img" alt="" src="https://www.figma.com/api/mcp/asset/19391528-0379-46bc-ab58-73757e8497c3" />
-          </div>
-        </div>
-        <div style="position: absolute; left: 355.21px; top: 584.99px; width: 371.12px; height: 207.436px; display: flex; align-items: center; justify-content: center">
-          <div style="transform: rotate(10.71deg)">
-            <div style="position: relative; width: 350.3px; height: 144.838px">
-              <div style="position: absolute; inset: -0.26% -0.11% -0.3% -0.11%">
-                <img class="img" alt="" src="https://www.figma.com/api/mcp/asset/46d28fc0-ad89-41ec-b083-6ac28fa9cc58" />
+        <!-- 2x2 cards: figurine + companion visual + caption -->
+        <div
+          style="
+            position: absolute;
+            left: 184px;
+            top: 246px;
+            width: 1360px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 80px;
+            row-gap: 42px;
+          "
+        >
+          <div
+            style="
+              height: 280px;
+              background: rgba(255, 255, 255, 0.72);
+              border: 1px solid rgba(0, 0, 0, 0.18);
+              border-radius: 20px;
+              padding: 20px 22px 16px;
+              display: flex;
+              flex-direction: column;
+              gap: 14px;
+            "
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+                height: 190px;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  class="img img-contain"
+                  alt="figurine-small"
+                  src="../assets/figurine-small.png"
+                />
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  class="img img-contain"
+                  alt="empty-pillow"
+                  src="../assets/empty-pillow.png"
+                />
               </div>
             </div>
+            <p
+              class="inter"
+              style="
+                margin: 0;
+                font-size: 28px;
+                font-weight: 700;
+                text-align: center;
+                color: #000;
+              "
+            >
+              I’m not in bed (Off)
+            </p>
+          </div>
+          <div
+            style="
+              height: 280px;
+              background: rgba(255, 255, 255, 0.72);
+              border: 1px solid rgba(0, 0, 0, 0.18);
+              border-radius: 20px;
+              padding: 20px 22px 16px;
+              display: flex;
+              flex-direction: column;
+              gap: 14px;
+            "
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+                height: 190px;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  class="img img-contain"
+                  alt="figurine-small-with-blue-glow"
+                  src="../assets/figurine-small-with-blue-glow.png"
+                />
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  class="img img-contain"
+                  alt="sleeping-crimson-on-pillow"
+                  src="../assets/sleeping-crimson-on-pillow.png"
+                />
+              </div>
+            </div>
+            <p
+              class="inter"
+              style="
+                margin: 0;
+                font-size: 28px;
+                font-weight: 700;
+                text-align: center;
+                color: #000;
+              "
+            >
+              I’m in bed (On)
+            </p>
+          </div>
+          <div
+            style="
+              height: 280px;
+              background: rgba(255, 255, 255, 0.72);
+              border: 1px solid rgba(0, 0, 0, 0.18);
+              border-radius: 20px;
+              padding: 20px 22px 16px;
+              display: flex;
+              flex-direction: column;
+              gap: 14px;
+            "
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+                height: 190px;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  class="img img-contain"
+                  alt="figurine-small-with-orange-glow-hand"
+                  src="../assets/figurine-small-with-orange-glow-hand.png"
+                />
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  class="img img-contain"
+                  alt="speaker-on"
+                  src="../assets/speaker-on.gif"
+                />
+              </div>
+            </div>
+            <p
+              class="inter"
+              style="
+                margin: 0;
+                font-size: 28px;
+                font-weight: 700;
+                text-align: center;
+                color: #000;
+              "
+            >
+              Stroke head - Speaker (Orange)
+            </p>
+          </div>
+          <div
+            style="
+              height: 280px;
+              background: rgba(255, 255, 255, 0.72);
+              border: 1px solid rgba(0, 0, 0, 0.18);
+              border-radius: 20px;
+              padding: 20px 22px 16px;
+              display: flex;
+              flex-direction: column;
+              gap: 14px;
+            "
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+                height: 190px;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  class="img img-contain"
+                  alt="figurine-small-with-purple-glow-hand"
+                  src="../assets/figurine-small-with-purple-glow-hand.png"
+                />
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <div style="position: relative; width: 220px; height: 150px">
+                  <img
+                    class="img img-contain"
+                    alt="diffuser-on"
+                    src="../assets/diffuser.png"
+                  />
+                  <div class="mist mist-2" style="position: absolute; left: 10px; top: -28px; width: 190px; height: 48px">
+                    <img class="img img-contain" alt="" src="../assets/mist-2.png" />
+                  </div>
+                  <div class="mist mist-1" style="position: absolute; left: 66px; top: -14px; width: 86px; height: 30px">
+                    <img class="img img-contain" alt="" src="../assets/mist-1.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p
+              class="inter"
+              style="
+                margin: 0;
+                font-size: 28px;
+                font-weight: 700;
+                text-align: center;
+                color: #000;
+              "
+            >
+              Boop nose - Diffuser (Purple)
+            </p>
           </div>
         </div>
-        <div style="position: absolute; left: 673.55px; top: 585.71px; width: 172.037px; height: 228.527px">
-          <img class="img" alt="" style="object-fit: cover; pointer-events: none" src="https://www.figma.com/api/mcp/asset/9bf8c130-9d65-4b53-a774-d000ddfb2ba6" />
-        </div>
 
-        <div style="position: absolute; left: 933.77px; top: 582.88px; width: 272.989px; height: 169.584px">
-          <div style="position: absolute; inset: -25.62% -15.92%">
-            <img class="img" alt="" src="https://www.figma.com/api/mcp/asset/e33281bc-5cd4-448d-9c27-5ae4aff8a3a9" />
-          </div>
-        </div>
-        <div style="position: absolute; left: 913.09px; top: 612.24px; width: 314.009px; height: 195.846px">
-          <img class="img" alt="" src="https://www.figma.com/api/mcp/asset/01445574-9890-45c5-b7c0-fd0e531ebf33" />
-        </div>
-        <div style="position: absolute; left: 1113px; top: 720px; width: 173.784px; height: 131px">
-          <div style="position: absolute; inset: -0.26% -0.41% -0.27% -0.2%">
-            <img class="img" alt="" src="https://www.figma.com/api/mcp/asset/bbe86e16-d81f-48bf-bc92-e8c3d796531b" />
-          </div>
-        </div>
-        <div style="position: absolute; left: 1289.49px; top: 583.7px; width: 179.509px; height: 234.112px">
-          <img class="img" alt="" style="object-fit: cover; pointer-events: none" src="https://www.figma.com/api/mcp/asset/b42d96df-5c55-4194-8a08-c093bd345160" />
-        </div>
-
-        <p class="inter" style="position: absolute; left: 0; top: 861px; width: 1728px; margin: 0; font-size: 40px; font-weight: 700; text-align: center; color: #000">
-          <span style="display: inline-block; width: 900px; transform: translateX(-230px)">Apply pressure - Speaker (Orange)</span>
-          <span style="display: inline-block; width: 900px; transform: translateX(230px)">Boop nose - Diffuser (Purple)</span>
-        </p>
-
-        <a class="btn btn-outline" href="./913-2849.html" style="position: absolute; left: 100px; top: 953px; width: 375px; z-index: 3"
+        <a
+          class="btn btn-outline"
+          href="./913-2849.html"
+          style="
+            position: absolute;
+            left: 100px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
           >Back</a
         >
-        <a class="btn btn-outline" href="../index.html" style="position: absolute; left: 1253px; top: 953px; width: 375px; z-index: 3"
+        <a
+          class="btn btn-outline"
+          href="../index.html"
+          style="
+            position: absolute;
+            left: 1253px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
           >Next</a
         >
       </main>
     </div>
   </body>
 </html>
-
