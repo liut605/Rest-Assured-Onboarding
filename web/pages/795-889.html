@@ -33,73 +33,131 @@
           Remember how I LOVE to snuggle inside your blanket?
         </h1>
 
-        <div style="position: absolute; left: 0; top: 663px; width: 100%">
-          <img
-            class="img-fit-width"
-            alt="Bed"
-            src="https://www.figma.com/api/mcp/asset/3f593eb6-3c8c-4699-a993-0a03291ff7c1"
-          />
+        <div
+          id="bed-layer"
+          style="
+            position: absolute;
+            left: 0;
+            top: 663px;
+            width: 100%;
+            transition: opacity 1000ms ease;
+          "
+        >
+          <img class="img-fit-width" alt="Bed" src="../assets/bed.png" />
         </div>
 
         <div
-          style="position: absolute; left: -10%; top: 362px; width: 120%"
+          id="blanket-layer"
+          style="
+            position: absolute;
+            left: -10%;
+            top: 362px;
+            width: 120%;
+            transition: opacity 2000ms ease;
+          "
           aria-hidden="true"
         >
           <img
             class="img-fit-width"
-            alt=""
-            src="https://www.figma.com/api/mcp/asset/a6ceeb8e-295c-426f-9def-bd149ad67174"
+            alt="blanket"
+            src="../assets/blanket.png"
           />
         </div>
 
         <!-- "Smart animation" frames combined: figurine pops in, then CTA appears -->
         <div
+          id="nose-layer"
           class="reveal"
           data-reveal="dog"
           data-delay-ms="500"
-          data-hide-ms="850"
           style="
             position: absolute;
-            left: 650px;
-            top: 631px;
-            width: 417px;
-            height: 266px;
+            left: -10%;
+            top: 362px;
+            width: 120%;
+            height: auto;
+            transition: opacity 1000ms ease;
           "
         >
           <img
-            class="img img-contain"
+            class="img-fit-width"
             alt="Dog nose"
-            src="https://www.figma.com/api/mcp/asset/5c14e7d9-a307-47ce-8e78-e6a1095bb91e"
+            src="../assets/nose-under-blanket.png"
           />
         </div>
 
         <div
-          class="pop-in"
-          data-animate="pop-in"
-          data-delay-ms="900"
+          id="figurine-layer"
           style="
             position: absolute;
             left: 204px;
             top: 333px;
             width: 1059px;
             height: 660.491px;
+            opacity: 0;
+            transition: opacity 1000ms ease;
           "
         >
           <img
             class="img img-contain"
             alt="Abstract figurine"
-            src="https://www.figma.com/api/mcp/asset/5d329922-1019-4340-8352-78ef813d39a8"
+            src="../assets/figurine.png"
           />
         </div>
 
-        <a
-          class="btn btn-outline reveal"
-          data-reveal="cta"
-          data-delay-ms="1400"
-          href="./795-1026.html"
-          style="position: absolute; left: 1253px; top: 953px; width: 375px"
-          >Next</a
+        <section
+          id="progress-scene"
+          style="
+            position: absolute;
+            inset: 0;
+            background: #c4cecb;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 900ms ease;
+          "
+          aria-hidden="true"
         >
+          <div class="table" aria-hidden="true"></div>
+          <div style="position: absolute; left: 317px; top: 266px; width: 1059px; height: 660.491px">
+            <img class="img img-contain" alt="Figurine" src="../assets/figurine.png" />
+          </div>
+
+          <a
+            class="btn btn-outline"
+            href="./868-977.html"
+            style="position: absolute; left: 1253px; top: 953px; width: 375px; z-index: 3"
+            >Next</a
+          >
+        </section>
+        <script>
+          (() => {
+            const blanket = document.getElementById("blanket-layer");
+            const bed = document.getElementById("bed-layer");
+            const nose = document.getElementById("nose-layer");
+            const figurine = document.getElementById("figurine-layer");
+            const progressScene = document.getElementById("progress-scene");
+            if (!blanket || !bed || !nose || !figurine || !progressScene) return;
+
+            // After nose-under-blanket is fully revealed, remove blanket layer.
+            window.setTimeout(() => {
+              blanket.classList.add("u-hidden");
+            }, 500);
+
+            // After blanket dissolve finishes, fade nose out and figurine in.
+            window.setTimeout(() => {
+              nose.classList.add("u-hidden");
+              figurine.style.opacity = "1";
+              bed.classList.add("u-hidden");
+            }, 2000);
+
+            // Start transitioning into the additional frame while bed is fading out.
+            window.setTimeout(() => {
+              progressScene.style.opacity = "1";
+              progressScene.style.pointerEvents = "auto";
+              progressScene.setAttribute("aria-hidden", "false");
+            }, 2000);
+          })();
+        </script>
       </main>
     </div>
   </body>
