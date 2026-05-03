@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>1145:2426 — Quiz question</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../app.js"></script>
+    <script defer src="../interactions.js"></script>
+  </head>
+  <body>
+    <div class="viewport">
+      <main
+        class="stage"
+        data-node-id="1145-2426"
+        data-quiz-state="pending"
+        data-advance="none"
+        data-neopixel='{"state":"off"}'
+        style="background: #c4cecb"
+      >
+        <style>
+          .quiz-art-correct {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 280ms ease;
+          }
+          .quiz-next {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 220ms ease;
+          }
+          .quiz-b-good {
+            display: none;
+          }
+          .stage[data-quiz-state="correct"] .quiz-art-correct {
+            opacity: 1;
+          }
+          .stage[data-quiz-state="correct"] .quiz-next {
+            opacity: 1;
+            pointer-events: auto;
+          }
+          .stage[data-quiz-state="correct"] .quiz-b-good {
+            display: block;
+          }
+          .stage[data-quiz-state="correct"] #quiz-title {
+            top: 150px;
+          }
+          .stage[data-quiz-state="correct"] #quiz-title .quiz-title-default {
+            display: none;
+          }
+          .stage[data-quiz-state="correct"] #quiz-title .quiz-title-correct {
+            display: inline;
+          }
+          .stage[data-quiz-state="incorrect"] #quiz-title .quiz-title-default {
+            display: none;
+          }
+          .stage[data-quiz-state="incorrect"]
+            #quiz-title
+            .quiz-title-incorrect {
+            display: inline;
+          }
+          .quiz-title-correct,
+          .quiz-title-incorrect {
+            display: none;
+          }
+        </style>
+        <div class="table" style="height: 407px" aria-hidden="true"></div>
+
+        <h1
+          id="quiz-title"
+          class="playfair"
+          style="
+            position: absolute;
+            left: 70px;
+            top: 130px;
+            width: 1588px;
+            margin: 0;
+            font-size: 48px;
+            line-height: 1.2;
+            text-align: center;
+            color: #000;
+          "
+        >
+          <span class="quiz-title-default"
+            >Let’s say that you come back to your desk <br />after a long
+            afternoon of meetings,<br />
+            and you see the figurine emits white light. What does it mean?</span
+          >
+          <span class="quiz-title-correct">Good hooman!</span>
+          <span class="quiz-title-incorrect">Not quite. Try again!</span>
+        </h1>
+
+        <div
+          class="quiz-art-correct"
+          style="
+            position: absolute;
+            left: 53px;
+            top: 356px;
+            width: 450px;
+            height: auto;
+            transform: rotate(-20deg);
+          "
+          aria-hidden="true"
+        >
+          <img
+            class="img img-contain"
+            alt="Image 36"
+            src="../assets/crimson-3.svg"
+          />
+        </div>
+
+        <div
+          style="
+            position: absolute;
+            left: 145px;
+            top: 380px;
+            width: 700px;
+            height: 420px;
+          "
+        >
+          <img
+            class="img img-contain"
+            alt="Glow on"
+            src="../assets/glow-on.png"
+          />
+        </div>
+        <div
+          style="
+            position: absolute;
+            left: 120px;
+            top: 500px;
+            width: 730px;
+            height: 390px;
+          "
+        >
+          <img
+            class="img img-contain"
+            alt="Figurine"
+            src="../assets/figurine.png"
+          />
+        </div>
+
+        <div
+          style="
+            position: absolute;
+            left: 945px;
+            top: 335px;
+            width: 615px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+          "
+        >
+          <button
+            class="quiz-card"
+            data-choice="A"
+            style="
+              position: relative;
+              height: 200px;
+              border: 1px solid #000;
+              border-radius: 20px;
+              background: #fbf7f240;
+              padding: 0;
+              overflow: hidden;
+              cursor: pointer;
+            "
+          >
+            <span
+              style="
+                position: absolute;
+                left: 16px;
+                top: 10px;
+                font-family: &quot;Playfair Display&quot;, serif;
+                font-size: 42px;
+                font-weight: 700;
+                color: #000;
+                z-index: 2;
+              "
+              >A</span
+            >
+            <img
+              class="img img-contain"
+              alt="Card A"
+              src="../assets/empty-pillow.png"
+            />
+          </button>
+
+          <button
+            class="quiz-card"
+            data-choice="B"
+            style="
+              position: relative;
+              height: 200px;
+              border: 1px solid #000;
+              border-radius: 20px;
+              background: #fbf7f240;
+              padding: 0;
+              overflow: hidden;
+              cursor: pointer;
+            "
+          >
+            <span
+              style="
+                position: absolute;
+                left: 16px;
+                top: 10px;
+                font-family: &quot;Playfair Display&quot;, serif;
+                font-size: 42px;
+                font-weight: 700;
+                color: #000;
+                z-index: 2;
+              "
+              >B</span
+            >
+            <img
+              class="img img-contain"
+              alt="Card B"
+              src="../assets/sleeping-crimson-on-pillow-2.png"
+            />
+            <div
+              class="quiz-b-good"
+              style="
+                position: absolute;
+                inset: 0;
+                border: 4px solid #1f767f;
+                border-radius: 20px;
+                background: rgba(255, 255, 255, 0.45);
+              "
+            ></div>
+          </button>
+
+          <button
+            class="quiz-card"
+            data-choice="C"
+            style="
+              position: relative;
+              height: 200px;
+              border: 1px solid #000;
+              border-radius: 20px;
+              background: #fbf7f240;
+              padding: 0;
+              overflow: hidden;
+              cursor: pointer;
+            "
+          >
+            <span
+              style="
+                position: absolute;
+                left: 16px;
+                top: 10px;
+                font-family: &quot;Playfair Display&quot;, serif;
+                font-size: 42px;
+                font-weight: 700;
+                color: #000;
+                z-index: 2;
+              "
+              >C</span
+            >
+            <img
+              class="img img-contain"
+              alt="Card C"
+              style="width: 70%; height: 70%; margin: 50px auto 0"
+              src="../assets/speaker-on.png"
+            />
+          </button>
+
+          <button
+            class="quiz-card"
+            data-choice="D"
+            style="
+              position: relative;
+              height: 200px;
+              border: 1px solid #000;
+              border-radius: 20px;
+              background: #fbf7f240;
+              padding: 0;
+              overflow: hidden;
+              cursor: pointer;
+            "
+          >
+            <span
+              style="
+                position: absolute;
+                left: 16px;
+                top: 8px;
+                font-family: &quot;Playfair Display&quot;, serif;
+                font-size: 42px;
+                font-weight: 700;
+                color: #000;
+                z-index: 2;
+              "
+              >D</span
+            >
+            <img
+              class="img img-contain"
+              alt="Card D"
+              style="width: 70%; height: 70%; margin: 50px auto 0"
+              src="../assets/diffuser-on.png"
+            />
+          </button>
+        </div>
+
+        <a
+          class="btn btn-outline"
+          href="./1144-2351.html"
+          style="
+            position: absolute;
+            left: 100px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
+          >Back</a
+        >
+        <a
+          class="btn btn-outline quiz-next"
+          href="./1145-2391.html"
+          style="
+            position: absolute;
+            left: 1253px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
+          >Next</a
+        >
+
+        <script>
+          (() => {
+            const cards = Array.from(document.querySelectorAll(".quiz-card"));
+            const stage = document.querySelector(".stage");
+            if (!cards.length || !stage) return;
+
+            cards.forEach((card) => {
+              card.addEventListener("click", () => {
+                const choice = card.getAttribute("data-choice") || "?";
+                cards.forEach((c) => (c.style.outline = "none"));
+                card.style.outlineOffset = "2px";
+                if (choice === "B") {
+                  stage.setAttribute("data-quiz-state", "correct");
+                  card.style.outline = "4px solid rgba(31, 118, 127, 0.65)";
+                } else {
+                  stage.setAttribute("data-quiz-state", "incorrect");
+                  card.style.outline = "4px solid rgba(196, 38, 38, 0.8)";
+                }
+              });
+            });
+          })();
+        </script>
+      </main>
+    </div>
+  </body>
+</html>
