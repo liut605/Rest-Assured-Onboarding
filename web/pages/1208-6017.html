@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>1208:5999 + 1208:6017 — Type 2 fill interaction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../app.js"></script>
+    <script defer src="../interactions.js"></script>
+  </head>
+  <body>
+    <div class="viewport">
+      <main
+        class="stage type2-fill"
+        data-node-id="1208-6017"
+        data-advance="none"
+        data-neopixel='{"state":"off"}'
+        data-fill-state="pending"
+        style="background: #c4cecb"
+      >
+        <style>
+          .type2-pending,
+          .type2-correct {
+            display: none;
+          }
+          .type2-fill[data-fill-state="pending"] .type2-pending {
+            display: block;
+          }
+          .type2-fill[data-fill-state="correct"] .type2-correct {
+            display: block;
+          }
+          .type2-fill[data-fill-state="pending"] .type2-next {
+            opacity: 0;
+            pointer-events: none;
+          }
+          .type2-fill[data-fill-state="correct"] .type2-next {
+            opacity: 1;
+            pointer-events: auto;
+          }
+          .type2-next {
+            transition: opacity 180ms ease;
+          }
+        </style>
+
+        <div class="table" style="height: 454px" aria-hidden="true"></div>
+
+        <h1
+          class="playfair type2-pending"
+          style="
+            position: absolute;
+            left: 0;
+            top: 150px;
+            width: 1728px;
+            margin: 0;
+            font-size: 48px;
+            line-height: 1.2;
+            text-align: center;
+            color: #000;
+          "
+        >
+          Upon careful consideration, you decided to turn on the speaker for
+          me!<br />
+          How do you turn the speaker on?
+        </h1>
+
+        <div
+          class="type2-pending"
+          style="
+            position: absolute;
+            left: 532px;
+            top: 355px;
+            width: 660px;
+            height: 410px;
+          "
+        >
+          <div style="position: absolute; inset: -25.62% -15.92%">
+            <img
+              class="img img-contain"
+              alt="Glow diffuser"
+              src="../assets/glow-diffuser.png"
+            />
+          </div>
+        </div>
+
+        <h1
+          class="playfair type2-correct"
+          style="
+            position: absolute;
+            left: 0;
+            top: 150px;
+            width: 1728px;
+            margin: 0;
+            font-size: 48px;
+            line-height: 1.2;
+            text-align: center;
+            color: #000;
+          "
+        >
+          Phew, nighty night!
+        </h1>
+
+        <div
+          class="type2-correct"
+          style="
+            position: absolute;
+            left: 532px;
+            top: 355px;
+            width: 660px;
+            height: 410px;
+          "
+        >
+          <div style="position: absolute; inset: -25.62% -15.92%">
+            <img
+              class="img img-contain"
+              alt="Glow speaker"
+              src="../assets/glow-speaker.png"
+            />
+          </div>
+        </div>
+
+        <div
+          style="
+            position: absolute;
+            left: 484px;
+            top: 426px;
+            width: 759.173px;
+            height: 473.491px;
+          "
+        >
+          <img
+            class="img img-contain"
+            alt="Figurine"
+            src="../assets/figurine.png"
+          />
+        </div>
+
+        <a
+          class="btn btn-outline"
+          href="./1208-5974.html"
+          style="
+            position: absolute;
+            left: 100px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
+          >Back</a
+        >
+        <a
+          class="btn btn-outline type2-next"
+          href="./1131-2711.html"
+          style="
+            position: absolute;
+            left: 1253px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
+          >Next</a
+        >
+
+        <script>
+          (() => {
+            const stage = document.querySelector(".type2-fill");
+            if (!stage) return;
+
+            let ws = null;
+            let correctShown = false;
+
+            function sendNeopixel(state) {
+              if (!ws || ws.readyState !== WebSocket.OPEN) return;
+              ws.send(
+                JSON.stringify({
+                  type: "neopixel:set",
+                  state,
+                  nodeId: stage.getAttribute("data-node-id") || undefined,
+                }),
+              );
+            }
+
+            function isButtonSignal(line) {
+              const t = String(line || "").trim();
+              if (!t) return false;
+              if (t.toLowerCase().includes("button")) return true;
+              try {
+                const j = JSON.parse(t);
+                return Boolean(
+                  j &&
+                  typeof j === "object" &&
+                  (j.type === "button" || j.button === true),
+                );
+              } catch {
+                return false;
+              }
+            }
+
+            function showCorrect() {
+              if (correctShown) return;
+              correctShown = true;
+              stage.setAttribute("data-fill-state", "correct");
+              sendNeopixel("speaker_on");
+            }
+
+            try {
+              ws = new WebSocket("ws://localhost:8787");
+              ws.addEventListener("message", (ev) => {
+                let payload = null;
+                try {
+                  payload = JSON.parse(String(ev.data));
+                } catch {
+                  return;
+                }
+                if (payload?.type !== "device:line" || payload.text == null)
+                  return;
+                if (isButtonSignal(payload.text)) showCorrect();
+              });
+            } catch {
+              ws = null;
+            }
+
+            // Debug shortcut for flow testing: press "[" to unlock Next.
+            window.addEventListener("keydown", (e) => {
+              if (e.key !== "[") return;
+              showCorrect();
+            });
+          })();
+        </script>
+      </main>
+    </div>
+  </body>
+</html>

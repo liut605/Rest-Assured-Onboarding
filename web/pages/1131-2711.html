@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>1131:2711 + 1131:2815 — Congrats loop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../app.js"></script>
+    <script defer src="../interactions.js"></script>
+  </head>
+  <body>
+    <div class="viewport">
+      <main
+        class="stage congrats-flow"
+        data-node-id="1131-2711"
+        data-advance="none"
+        data-congrats-state="scene-1"
+        style="background: #c4cecb"
+      >
+        <style>
+          .congrats-scene {
+            position: absolute;
+            inset: 0;
+          }
+          .congrats-scene-2 {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 420ms ease;
+          }
+          .congrats-flow[data-congrats-state="scene-2"] .congrats-scene-2 {
+            opacity: 1;
+          }
+          .congrats-stage {
+            position: absolute;
+            left: 0;
+            top: 220px;
+            width: 1728px;
+            height: 896px;
+            overflow: hidden;
+          }
+          .congrats-tiles {
+            position: absolute;
+            left: -120px;
+            top: -40px;
+            width: 1968px;
+            height: 980px;
+            background-image: url("../assets/more congrats.png");
+            /* background-repeat: repeat; */
+            background-size: 100%;
+            transform: rotate(-1.8deg);
+            transform-origin: center;
+          }
+          .congrats-center {
+            position: absolute;
+            left: 50%;
+            bottom: -8px;
+            width: 1240px;
+            height: 880px;
+            transform: translateX(-50%);
+          }
+        </style>
+
+        <div class="table" style="height: 413px" aria-hidden="true"></div>
+
+        <h1
+          class="playfair"
+          style="
+            position: absolute;
+            left: 0;
+            top: 150px;
+            width: 1728px;
+            margin: 0;
+            font-size: 48px;
+            line-height: 1.2;
+            text-align: center;
+            color: #000;
+          "
+        >
+          Good job hooman, you're the goodest!
+        </h1>
+
+        <div class="congrats-scene congrats-scene-1" aria-hidden="true">
+          <div class="congrats-stage">
+            <div class="congrats-tiles"></div>
+          </div>
+        </div>
+
+        <div class="congrats-scene congrats-scene-2" aria-hidden="true">
+          <div class="congrats-stage">
+            <div class="congrats-tiles"></div>
+            <div class="congrats-center">
+              <img
+                class="img img-contain"
+                alt="Crimson-3"
+                style="object-position: center bottom"
+                src="../assets/Crimson-3.svg"
+              />
+            </div>
+          </div>
+        </div>
+
+        <a
+          class="btn btn-outline"
+          href="./1208-6017.html"
+          style="
+            position: absolute;
+            left: 100px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
+          >Back</a
+        >
+        <a
+          class="btn btn-outline"
+          href="./913-3324.html"
+          style="
+            position: absolute;
+            left: 1253px;
+            top: 953px;
+            width: 375px;
+            z-index: 3;
+          "
+          >Next</a
+        >
+
+        <script>
+          (() => {
+            const stage = document.querySelector(".congrats-flow");
+            if (!stage) return;
+            window.setTimeout(() => {
+              stage.setAttribute("data-congrats-state", "scene-2");
+            }, 700);
+          })();
+        </script>
+      </main>
+    </div>
+  </body>
+</html>

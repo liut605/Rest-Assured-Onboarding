@@ -25,6 +25,11 @@
         style="background: #c4cecb"
       >
         <style>
+          .quiz-art-correct {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 280ms ease;
+          }
           .quiz-next {
             opacity: 0;
             pointer-events: none;
@@ -39,6 +44,9 @@
           }
           .stage[data-quiz-state="correct"] .quiz-c-good {
             display: block;
+          }
+          .stage[data-quiz-state="correct"] .quiz-art-correct {
+            opacity: 1;
           }
           .stage[data-quiz-state="correct"] #quiz-title .quiz-title-default {
             display: none;
@@ -84,6 +92,25 @@
           <span class="quiz-title-correct">Whoop whoop!</span>
           <span class="quiz-title-incorrect">Not quite. Try again!</span>
         </h1>
+
+        <div
+          class="quiz-art-correct"
+          style="
+            position: absolute;
+            left: 53px;
+            top: 356px;
+            width: 450px;
+            height: auto;
+            transform: rotate(-20deg);
+          "
+          aria-hidden="true"
+        >
+          <img
+            class="img img-contain"
+            alt="Image 36"
+            src="../assets/crimson-3.svg"
+          />
+        </div>
 
         <div
           style="
