@@ -23,6 +23,45 @@
         data-neopixel='{"state":"off"}'
         data-cap-signal="CAP_TOUCH"
       >
+        <style>
+          .speaker-stroke-loop {
+            position: absolute;
+            inset: 0;
+            overflow: visible;
+            pointer-events: none;
+          }
+          .speaker-stroke-loop .stroke-base {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+          }
+          .speaker-stroke-loop .stroke-hand {
+            position: absolute;
+            left: 10%;
+            top: -15%;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            object-position: center;
+            transform-origin: 50% 65%;
+            animation: speakerHandStroke 1500ms ease-in-out infinite;
+          }
+          @keyframes speakerHandStroke {
+            0% {
+              transform: translate(0, -10px) rotate(-6deg);
+            }
+            50% {
+              transform: translate(12px, 16px) rotate(4deg);
+            }
+            100% {
+              transform: translate(0, -10px) rotate(-6deg);
+            }
+          }
+        </style>
         <!-- Scene 1: Figma 905:1679 -->
         <div class="sp-scene is-active" data-sp="1" aria-hidden="false">
           <h1
@@ -41,27 +80,27 @@
           >
             I fall asleep so much faster with soothing sounds!
           </h1>
-          <div
-            class="table"
-            style="height: 325px"
-            aria-hidden="true"
-          ></div>
+          <div class="table" style="height: 325px" aria-hidden="true"></div>
           <div
             style="
               position: absolute;
               left: 50%;
-              top: 363px;
-              width: 977px;
-              height: 656px;
+              top: 578.04px;
+              width: 602.691px;
+              height: 375.894px;
               transform: translateX(-50%);
             "
           >
-            <div style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
+            <div class="speaker-stroke-loop">
               <img
-                class="img"
-                alt=""
-                style="position: absolute; left: 0; top: -0.03%; width: 100%; height: 100.05%; max-width: none"
-                src="https://www.figma.com/api/mcp/asset/2c18ffe5-6959-4e61-8d62-635c2e708c5b"
+                class="img stroke-base"
+                alt="figurine"
+                src="../assets/figurine.png"
+              />
+              <img
+                class="img stroke-hand"
+                alt="Stroking hand"
+                src="../assets/stroking-hand.png"
               />
             </div>
           </div>
@@ -79,11 +118,25 @@
             aria-hidden="true"
           ></div>
           <div
-            style="position: absolute; left: 1295px; top: 191px; width: 120px; height: 224px; display: flex; align-items: center; justify-content: center"
+            style="
+              position: absolute;
+              left: 1295px;
+              top: 191px;
+              width: 120px;
+              height: 224px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
           >
             <div style="transform: rotate(90deg)">
               <div style="position: relative; width: 224px; height: 120px">
-                <div style="position: absolute; inset: -58.33% -24.55% -33.33% -24.55%">
+                <div
+                  style="
+                    position: absolute;
+                    inset: -58.33% -24.55% -33.33% -24.55%;
+                  "
+                >
                   <img
                     class="img"
                     alt=""
@@ -95,11 +148,28 @@
             </div>
           </div>
           <div
-            style="position: absolute; left: 1295px; top: 191px; width: 120px; height: 224px; display: flex; align-items: center; justify-content: center"
+            style="
+              position: absolute;
+              left: 1295px;
+              top: 191px;
+              width: 120px;
+              height: 224px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
           >
             <div style="transform: rotate(90deg)">
               <div style="position: relative; width: 224px; height: 120px">
-                <div style="position: absolute; bottom: 25%; left: 6.7%; right: 6.7%; top: 0">
+                <div
+                  style="
+                    position: absolute;
+                    bottom: 25%;
+                    left: 6.7%;
+                    right: 6.7%;
+                    top: 0;
+                  "
+                >
                   <img
                     class="img"
                     alt=""
@@ -138,7 +208,14 @@
           <div
             class="reveal"
             data-sp-await="continue"
-            style="position: absolute; left: 676px; top: 953px; width: 375px; height: 74px; z-index: 4"
+            style="
+              position: absolute;
+              left: 676px;
+              top: 953px;
+              width: 375px;
+              height: 74px;
+              z-index: 4;
+            "
             aria-hidden="true"
           >
             <a
@@ -146,7 +223,12 @@
               href="#"
               data-sp-goto="2"
               data-no-advance
-              style="box-sizing: border-box; width: 100%; display: flex; justify-content: center"
+              style="
+                box-sizing: border-box;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+              "
               >Continue</a
             >
           </div>
@@ -158,12 +240,24 @@
           <div
             class="reveal"
             data-sp-await="nav3"
-            style="position: absolute; left: 100px; top: 953px; width: 375px; height: 74px; z-index: 4"
+            style="
+              position: absolute;
+              left: 100px;
+              top: 953px;
+              width: 375px;
+              height: 74px;
+              z-index: 4;
+            "
             aria-hidden="true"
           >
             <a
               class="btn btn-outline"
-              style="box-sizing: border-box; width: 100%; display: flex; justify-content: center"
+              style="
+                box-sizing: border-box;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+              "
               href="./913-2897.html"
               >Back</a
             >
@@ -171,18 +265,40 @@
           <div
             class="reveal"
             data-sp-await="nav3"
-            style="position: absolute; left: 1253px; top: 953px; width: 375px; height: 74px; z-index: 4"
+            style="
+              position: absolute;
+              left: 1253px;
+              top: 953px;
+              width: 375px;
+              height: 74px;
+              z-index: 4;
+            "
             aria-hidden="true"
           >
             <a
               class="btn btn-outline"
-              style="box-sizing: border-box; width: 100%; display: flex; justify-content: center"
+              style="
+                box-sizing: border-box;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+              "
               href="./905-2064.html"
               >Next</a
             >
           </div>
-          <div style="position: absolute; left: 548px; top: 474px; width: 632.381px; height: 470px">
-            <div style="position: absolute; inset: -23.45% -14.3% -10.57% -14.69%">
+          <div
+            style="
+              position: absolute;
+              left: 548px;
+              top: 474px;
+              width: 632.381px;
+              height: 470px;
+            "
+          >
+            <div
+              style="position: absolute; inset: -23.45% -14.3% -10.57% -14.69%"
+            >
               <img
                 class="img"
                 alt="Speaker on"
@@ -192,7 +308,16 @@
             </div>
           </div>
           <div
-            style="position: absolute; left: 1486px; top: 218px; width: 120px; height: 240px; display: flex; align-items: center; justify-content: center"
+            style="
+              position: absolute;
+              left: 1486px;
+              top: 218px;
+              width: 120px;
+              height: 240px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
           >
             <div style="transform: rotate(90deg)">
               <div style="position: relative; width: 240px; height: 120px">
@@ -206,11 +331,16 @@
             </div>
           </div>
           <div
-            style="position: absolute; left: 183px; top: 284px; width: 1363px; height: 108px; background: #defdff; border-radius: 20px; filter: blur(35px); opacity: 0.6"
-            aria-hidden="true"
-          ></div>
-          <div
-            style="position: absolute; left: 1486px; top: 218px; width: 120px; height: 240px; display: flex; align-items: center; justify-content: center"
+            style="
+              position: absolute;
+              left: 1486px;
+              top: 218px;
+              width: 120px;
+              height: 240px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
           >
             <div style="transform: rotate(90deg)">
               <div style="position: relative; width: 240px; height: 120px">

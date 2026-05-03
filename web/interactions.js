@@ -330,6 +330,12 @@ window.addEventListener("DOMContentLoaded", () => {
         el.setAttribute("aria-hidden", "false");
       });
     }, 1800);
+
+    // Debug shortcut: "[" simulates CAP_TOUCH for try-speaker flow.
+    window.addEventListener("keydown", (e) => {
+      if (e.key !== "[") return;
+      lineHandler(capToken);
+    });
   }
 
   // Try — diffuser: condensed in-page scenes (boop nose).
@@ -342,6 +348,14 @@ window.addEventListener("DOMContentLoaded", () => {
       "BUTTON";
     let buttonAdvanceDone = false;
 
+    function goDiffuserScene(which) {
+      diffuserRoot.querySelectorAll(".df-scene").forEach((panel) => {
+        const on = panel.getAttribute("data-df") === which;
+        panel.classList.toggle("is-active", on);
+        panel.setAttribute("aria-hidden", on ? "false" : "true");
+      });
+    }
+
     const lineHandler = (line) => {
       const isBtn = matchesButton(line, buttonToken);
       if (DEBUG_SERIAL) console.log("[diffuser] line", line, "button?", isBtn);
@@ -349,6 +363,13 @@ window.addEventListener("DOMContentLoaded", () => {
       if (buttonAdvanceDone) return;
       buttonAdvanceDone = true;
       diffuserRoot.classList.add("df-button-received");
+      const hasScene2 = Boolean(
+        diffuserRoot.querySelector('.df-scene[data-df="2"]'),
+      );
+      if (hasScene2) {
+        goDiffuserScene("2");
+        return;
+      }
       const nextHref =
         diffuserRoot.getAttribute("data-next-on-button") || "./905-2400.html";
       if (DEBUG_SERIAL) console.log("[diffuser] navigate", nextHref);
@@ -357,6 +378,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
     deviceLineHandlers.add(lineHandler);
     ensureWs();
+
+    // Debug shortcut: "]" simulates BUTTON for try-diffuser flow.
+    window.addEventListener("keydown", (e) => {
+      if (e.key !== "]") return;
+      lineHandler(buttonToken);
+    });
   }
 
   // Simple "smart animation" replacements:

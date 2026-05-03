@@ -26,167 +26,255 @@
         data-debug-serial
         data-ignore-cap-touch
       >
-        <!-- Single waiting scene (animated until serial BUTTON) -->
-        <div class="table" style="height: 413px" aria-hidden="true"></div>
+        <!-- Scene 1: wait for BUTTON signal -->
+        <div class="df-scene is-active" data-df="1" aria-hidden="false">
+          <div class="table" style="height: 413px" aria-hidden="true"></div>
 
-        <h1
-          class="playfair"
-          style="
-            position: absolute;
-            left: 0;
-            top: 150px;
-            width: 1728px;
-            margin: 0;
-            font-size: 48px;
-            line-height: 1.2;
-            text-align: center;
-            color: #000;
-            white-space: nowrap;
-          "
-        >
-          I’m ready to doze off at home filled with calming lavender scent.
-        </h1>
+          <h1
+            class="playfair"
+            style="
+              position: absolute;
+              left: 0;
+              top: 150px;
+              width: 1728px;
+              margin: 0;
+              font-size: 48px;
+              line-height: 1.2;
+              text-align: center;
+              color: #000;
+              white-space: nowrap;
+            "
+          >
+            I’m ready to doze off at home filled with calming lavender scent.
+          </h1>
 
-        <div
-          style="
-            position: absolute;
-            left: 484px;
-            top: 478.04px;
-            width: 602.691px;
-            height: 375.894px;
-          "
-        >
-          <div style="position: absolute; inset: -0.2% 0 0 -0.12%">
-            <img
-              class="img"
-              alt="figurine-small"
-              style="object-fit: contain"
-              src="../assets/figurine-small.png"
-            />
-          </div>
-        </div>
-
-        <div
-          class="df-subtract"
-          style="
-            position: absolute;
-            left: 851px;
-            top: 727px;
-            width: 490.933px;
-            height: 390.794px;
-          "
-        >
-          <div style="position: absolute; inset: -0.23% -0.32% -0.23% -0.18%">
-            <img
-              class="img"
-              alt="hand"
-              style="object-fit: contain"
-              src="../assets/hand.png"
-            />
-          </div>
-        </div>
-
-        <div
-          style="
-            position: absolute;
-            left: 395px;
-            top: 284px;
-            width: 939px;
-            height: 108px;
-            background: #defdff;
-            border-radius: 20px;
-            filter: blur(35px);
-          "
-          aria-hidden="true"
-        ></div>
-
-        <div
-          style="
-            position: absolute;
-            left: 1284px;
-            top: 218px;
-            width: 120px;
-            height: 240px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          "
-          aria-hidden="true"
-        >
-          <!-- <div style="transform: rotate(90deg)"> -->
-          <div style="position: relative; width: 240px; height: 120px">
-            <div
-              style="position: absolute; inset: -58.33% -22.47% -33.33% -22.47%"
-            >
+          <div
+            style="
+              position: absolute;
+              left: 484px;
+              top: 478.04px;
+              width: 602.691px;
+              height: 375.894px;
+            "
+          >
+            <div style="position: absolute; inset: -0.2% 0 0 -0.12%">
               <img
                 class="img"
-                alt="glow-text"
+                alt="figurine"
                 style="object-fit: contain"
-                src="../assets/glow-text.png"
+                src="../assets/figurine.png"
               />
             </div>
-            <!-- </div> -->
           </div>
-        </div>
-        <div
-          style="
-            position: absolute;
-            left: 1284px;
-            top: 218px;
-            width: 120px;
-            height: 240px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          "
-          aria-hidden="true"
-        >
-          <div style="transform: rotate(90deg)">
+
+          <div
+            class="df-subtract"
+            style="
+              position: absolute;
+              left: 851px;
+              top: 727px;
+              width: 490.933px;
+              height: 390.794px;
+            "
+          >
+            <div style="position: absolute; inset: -0.23% -0.32% -0.23% -0.18%">
+              <img
+                class="img"
+                alt="hand"
+                style="object-fit: contain"
+                src="../assets/hand.png"
+              />
+            </div>
+          </div>
+
+          <div
+            style="
+              position: absolute;
+              left: 395px;
+              top: 284px;
+              width: 939px;
+              height: 108px;
+              background: #defdff;
+              border-radius: 20px;
+              filter: blur(35px);
+            "
+            aria-hidden="true"
+          ></div>
+
+          <div
+            style="
+              position: absolute;
+              left: 1284px;
+              top: 218px;
+              width: 120px;
+              height: 240px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+            aria-hidden="true"
+          >
             <div style="position: relative; width: 240px; height: 120px">
               <div
                 style="
                   position: absolute;
-                  bottom: 25%;
-                  left: 6.7%;
-                  right: 6.7%;
-                  top: 0;
+                  inset: -58.33% -22.47% -33.33% -22.47%;
                 "
               >
                 <img
                   class="img"
-                  alt=""
+                  alt="glow-text"
                   style="object-fit: contain"
-                  src="https://www.figma.com/api/mcp/asset/c033124f-f747-4964-b339-d078fc1b7ffd"
+                  src="../assets/glow-text.png"
                 />
               </div>
             </div>
           </div>
-        </div>
-
-        <div
-          style="
-            position: absolute;
-            left: 50%;
-            top: 284px;
-            transform: translateX(-50%);
-            background: #fff;
-            border-radius: 20px;
-            padding: 30px 60px;
-          "
-        >
-          <p
+          <div
             style="
-              margin: 0;
-              font-size: 40px;
-              font-weight: 700;
-              color: #000;
-              text-align: center;
-              white-space: nowrap;
-              font-family: Inter, system-ui, sans-serif;
+              position: absolute;
+              left: 1284px;
+              top: 218px;
+              width: 120px;
+              height: 240px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+            aria-hidden="true"
+          >
+            <div style="transform: rotate(90deg)">
+              <div style="position: relative; width: 240px; height: 120px">
+                <div
+                  style="
+                    position: absolute;
+                    bottom: 25%;
+                    left: 6.7%;
+                    right: 6.7%;
+                    top: 0;
+                  "
+                >
+                  <img
+                    class="img"
+                    alt=""
+                    style="object-fit: contain"
+                    src="https://www.figma.com/api/mcp/asset/c033124f-f747-4964-b339-d078fc1b7ffd"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              position: absolute;
+              left: 50%;
+              top: 284px;
+              transform: translateX(-50%);
+              background: #fff;
+              border-radius: 20px;
+              padding: 30px 60px;
             "
           >
-            Just boop my nose to turn on the diffuser!
-          </p>
+            <p
+              style="
+                margin: 0;
+                font-size: 40px;
+                font-weight: 700;
+                color: #000;
+                text-align: center;
+                white-space: nowrap;
+                font-family: Inter, system-ui, sans-serif;
+              "
+            >
+              Just boop my nose to turn on the diffuser!
+            </p>
+          </div>
+        </div>
+
+        <!-- Scene 2: middle confirmation scene (no heading) -->
+        <div class="df-scene" data-df="2" aria-hidden="true">
+          <div class="table" style="height: 413px" aria-hidden="true"></div>
+          <div
+            style="
+              position: absolute;
+              left: 469px;
+              top: 401px;
+              width: 632.381px;
+              height: 470px;
+            "
+          >
+            <div
+              style="position: absolute; inset: -23.45% -14.3% -10.57% -14.69%"
+            >
+              <img
+                class="img img-contain"
+                alt="glow-diffuser"
+                src="../assets/glow-diffuser.png"
+              />
+            </div>
+          </div>
+          <div
+            style="
+              position: absolute;
+              left: 484px;
+              top: 478.04px;
+              width: 602.691px;
+              height: 375.894px;
+            "
+          >
+            <div style="position: absolute; inset: -0.2% 0 0 -0.12%">
+              <img
+                class="img img-contain"
+                alt="Figurine"
+                src="../assets/figurine.png"
+              />
+            </div>
+          </div>
+          <div
+            style="
+              position: absolute;
+              left: 100px;
+              top: 953px;
+              width: 375px;
+              height: 74px;
+              z-index: 4;
+            "
+          >
+            <a
+              class="btn btn-outline"
+              style="
+                box-sizing: border-box;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+              "
+              href="./913-2911.html"
+              >Back</a
+            >
+          </div>
+          <div
+            style="
+              position: absolute;
+              left: 1253px;
+              top: 953px;
+              width: 375px;
+              height: 74px;
+              z-index: 4;
+            "
+          >
+            <a
+              class="btn btn-outline"
+              style="
+                box-sizing: border-box;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+              "
+              href="./905-2400.html"
+              >Next</a
+            >
+          </div>
         </div>
       </main>
     </div>
