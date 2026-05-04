@@ -199,14 +199,28 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function sendNeopixelState(state) {
     if (!state) return;
+    const normalizedState = String(state).trim().toLowerCase();
+    const isProgressBarPage = Boolean(stage.querySelector(".progress"));
+    if (isProgressBarPage && normalizedState !== "off") {
+      if (DEBUG_SERIAL) {
+        console.log(
+          "[neopixel] blocked non-off state on progress page",
+          normalizedState,
+        );
+      }
+      return;
+    }
     const payload = JSON.stringify({
+    // Web -> bridge command for Arduino/ESP32 NeoPixel state updates.
       type: "neopixel:set",
-      state,
+    // States map to figurine/light modes (off/on/speaker_on/diffuser_on).
+      state: normalizedState,
       nodeId: stage.getAttribute("data-node-id") || undefined,
     });
     if (DEBUG_SERIAL) console.log("[neopixel] send", payload);
     const sock = ensureWs();
     if (!sock) return;
+  // This WebSocket send is the browser-side signal dispatch toward Arduino.
     if (sock.readyState === WebSocket.OPEN) sock.send(payload);
     else wsQueue.push(payload);
   }
@@ -216,8 +230,58 @@ window.addEventListener("DOMContentLoaded", () => {
   // data-neopixel='{"state":"off" | "on" | "speaker_on" | "diffuser_on"}'
   const neopixelSpecRaw = stage.getAttribute("data-neopixel");
   const neopixelSpec = neopixelSpecRaw ? safeJsonParse(neopixelSpecRaw) : null;
+
+  function resolveNeopixelState() {
+    const baseState = String(neopixelSpec?.state || "")
+      .trim()
+      .toLowerCase();
+
+    // Scene-aware override: try-speaker flow.
+    if (stage.classList.contains("speaker-try")) {
+      const which = stage
+        .querySelector(".sp-scene.is-active")
+        ?.getAttribute("data-sp");
+      if (which === "3") return "speaker_on";
+      if (which === "2") return "on";
+      if (which === "1") return "off";
+    }
+
+    // Scene-aware override: try-diffuser flow.
+    if (stage.classList.contains("diffuser-try")) {
+      const which = stage
+        .querySelector(".df-scene.is-active")
+        ?.getAttribute("data-df");
+      if (which === "2" || stage.classList.contains("df-button-received")) {
+        return "diffuser_on";
+      }
+      return "off";
+    }
+
+    // Scene-aware override: type-2 fill pages after correct answer.
+    if (
+      stage.classList.contains("type2-fill") &&
+      stage.getAttribute("data-fill-state") === "correct"
+    ) {
+      const nodeId = String(stage.getAttribute("data-node-id") || "")
+        .trim()
+        .replace(":", "-");
+      if (nodeId === "1208-5974") return "diffuser_on";
+      if (nodeId === "1208-6017") return "speaker_on";
+    }
+
+    return baseState || null;
+  }
+
+  function reassertNeopixelState(reason) {
+    const current = resolveNeopixelState();
+    if (!current) return;
+    if (DEBUG_SERIAL) console.log("[neopixel] reassert", reason, current);
+    sendNeopixelState(current);
+  }
+
   if (neopixelSpec?.state) {
-    sendNeopixelState(neopixelSpec.state);
+    // Sends page-declared/current scene figurine/light state on load.
+    reassertNeopixelState("init");
   }
 
   function matchesCapTouch(line, customSignal) {
@@ -270,6 +334,7 @@ window.addEventListener("DOMContentLoaded", () => {
         panel.classList.toggle("is-active", on);
         panel.setAttribute("aria-hidden", on ? "false" : "true");
       });
+      reassertNeopixelState("speaker-scene");
     }
 
     speakerRoot.querySelectorAll("[data-sp-goto]").forEach((btn) => {
@@ -279,6 +344,7 @@ window.addEventListener("DOMContentLoaded", () => {
         if (!next) return;
         goSpeakerScene(next);
         if (next === "2") {
+          // User action -> turn figurine light "on" via Arduino.
           sendNeopixelState("on");
         }
       });
@@ -293,6 +359,7 @@ window.addEventListener("DOMContentLoaded", () => {
         if (scene1to3Done) return;
         scene1to3Done = true;
         goSpeakerScene("3");
+        // CAP_TOUCH event -> switch figurine/light to speaker mode.
         sendNeopixelState("speaker_on");
         if (!scene3NavShown) {
           scene3NavShown = true;
@@ -354,6 +421,7 @@ window.addEventListener("DOMContentLoaded", () => {
         panel.classList.toggle("is-active", on);
         panel.setAttribute("aria-hidden", on ? "false" : "true");
       });
+      reassertNeopixelState("diffuser-scene");
     }
 
     const lineHandler = (line) => {
@@ -362,6 +430,8 @@ window.addEventListener("DOMContentLoaded", () => {
       if (!isBtn) return;
       if (buttonAdvanceDone) return;
       buttonAdvanceDone = true;
+      // BUTTON (or debug "]") turns diffuser NeoPixel mode on.
+      sendNeopixelState("diffuser_on");
       diffuserRoot.classList.add("df-button-received");
       const hasScene2 = Boolean(
         diffuserRoot.querySelector('.df-scene[data-df="2"]'),
@@ -406,6 +476,7 @@ window.addEventListener("DOMContentLoaded", () => {
     window.setTimeout(() => {
       el.classList.add("is-visible");
       const nextState = el.getAttribute("data-neopixel-state");
+      // Timed reveal can also push a figurine/light state to Arduino.
       if (nextState) sendNeopixelState(nextState);
       const hideSel = el.getAttribute("data-hides");
       if (hideSel) {
@@ -431,6 +502,15 @@ window.addEventListener("DOMContentLoaded", () => {
   const advance = (stage.getAttribute("data-advance") || "click").toLowerCase();
 
   ensureWs();
+
+  // Re-send current state when user returns to this page/tab.
+  window.addEventListener("pageshow", () => reassertNeopixelState("pageshow"));
+  window.addEventListener("focus", () => reassertNeopixelState("focus"));
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      reassertNeopixelState("visibility");
+    }
+  });
 
   if (advance === "auto" && stage.hasAttribute("data-next")) {
     const delayMs = Number(stage.getAttribute("data-delay-ms") || "1200");

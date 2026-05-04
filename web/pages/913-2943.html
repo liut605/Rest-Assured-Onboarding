@@ -251,13 +251,41 @@
             const sceneOrder = ["a", "b", "c"];
             const getScene = () => flow.getAttribute("data-scene") || "a";
             const setScene = (scene) => flow.setAttribute("data-scene", scene);
+            const nodeId =
+              document.querySelector(".stage")?.getAttribute("data-node-id") ||
+              undefined;
+
+            function sendNeopixelState(state) {
+              if (!state) return;
+              const payload = JSON.stringify({
+                type: "neopixel:set",
+                state,
+                nodeId,
+              });
+              try {
+                const sock = new WebSocket("ws://localhost:8787");
+                sock.addEventListener("open", () => {
+                  sock.send(payload);
+                  sock.close();
+                });
+              } catch {
+                // Ignore websocket failures in standalone demo mode.
+              }
+            }
 
             nextBtn.addEventListener("click", (e) => {
               const current = getScene();
               const idx = sceneOrder.indexOf(current);
               if (idx >= 0 && idx < sceneOrder.length - 1) {
                 e.preventDefault();
-                setScene(sceneOrder[idx + 1]);
+                const nextScene = sceneOrder[idx + 1];
+                // First Next: orange/speaker mode. Second Next: purple/diffuser mode.
+                if (current === "a" && nextScene === "b") {
+                  sendNeopixelState("speaker_on");
+                } else if (current === "b" && nextScene === "c") {
+                  sendNeopixelState("diffuser_on");
+                }
+                setScene(nextScene);
               }
             });
 

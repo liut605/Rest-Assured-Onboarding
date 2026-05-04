@@ -376,6 +376,32 @@
           </div>
         </div>
 
+        <script>
+          (() => {
+            const nodeId =
+              document.querySelector(".stage")?.getAttribute("data-node-id") ||
+              undefined;
+            const payload = JSON.stringify({
+              type: "neopixel:set",
+              state: "on",
+              nodeId,
+            });
+
+            // Match the state-b reveal delay so NeoPixel turns on with glow-on.
+            window.setTimeout(() => {
+              try {
+                const sock = new WebSocket("ws://localhost:8787");
+                sock.addEventListener("open", () => {
+                  sock.send(payload);
+                  sock.close();
+                });
+              } catch {
+                // Ignore bridge/socket errors in standalone preview.
+              }
+            }, 500);
+          })();
+        </script>
+
         <a
           class="btn btn-outline"
           href="./1110-3455.html"

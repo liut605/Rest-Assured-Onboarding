@@ -77,6 +77,7 @@ wss.on("connection", (ws) => {
       const state = normalizeState(msg.state);
       if (!state) return;
       console.log(`[ws<-web] neopixel:set ${state}`);
+      // Bridge hop: forwards web figurine/light state to Arduino over serial.
       // Serial protocol: "<state>\\n"
       // (matches Arduino-side line parsing; simplest for now)
       writeLine(state);

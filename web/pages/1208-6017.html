@@ -20,7 +20,7 @@
         class="stage type2-fill"
         data-node-id="1208-6017"
         data-advance="none"
-        data-neopixel='{"state":"off"}'
+        data-neopixel='{"state":"diffuser_on"}'
         data-fill-state="pending"
         style="background: #c4cecb"
       >
@@ -171,17 +171,37 @@
             if (!stage) return;
 
             let ws = null;
+            let pendingStates = [];
             let correctShown = false;
 
             function sendNeopixel(state) {
-              if (!ws || ws.readyState !== WebSocket.OPEN) return;
-              ws.send(
-                JSON.stringify({
-                  type: "neopixel:set",
-                  state,
-                  nodeId: stage.getAttribute("data-node-id") || undefined,
-                }),
-              );
+              if (!state) return;
+              const payload = JSON.stringify({
+                type: "neopixel:set",
+                state,
+                nodeId: stage.getAttribute("data-node-id") || undefined,
+              });
+              if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(payload);
+                return;
+              }
+              pendingStates.push(payload);
+            }
+
+            function isCapTouchSignal(line) {
+              const t = String(line || "").trim();
+              if (!t) return false;
+              if (t.toLowerCase().includes("cap_touch")) return true;
+              try {
+                const j = JSON.parse(t);
+                return Boolean(
+                  j &&
+                  typeof j === "object" &&
+                  (j.type === "cap_touch" || j.cap_touch === true),
+                );
+              } catch {
+                return false;
+              }
             }
 
             function isButtonSignal(line) {
@@ -209,6 +229,10 @@
 
             try {
               ws = new WebSocket("ws://localhost:8787");
+              ws.addEventListener("open", () => {
+                for (const payload of pendingStates) ws.send(payload);
+                pendingStates = [];
+              });
               ws.addEventListener("message", (ev) => {
                 let payload = null;
                 try {
@@ -218,7 +242,12 @@
                 }
                 if (payload?.type !== "device:line" || payload.text == null)
                   return;
-                if (isButtonSignal(payload.text)) showCorrect();
+                if (
+                  isButtonSignal(payload.text) ||
+                  isCapTouchSignal(payload.text)
+                ) {
+                  showCorrect();
+                }
               });
             } catch {
               ws = null;
