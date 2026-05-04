@@ -178,13 +178,13 @@
           />
         </div>
         <div
-          class="reveal"
+          class="reveal glow-on-layer"
           data-reveal="iot-on"
           data-delay-ms="1600"
           style="
             position: absolute;
             left: 342px;
-            top: 617px;
+            top: 577px;
             width: 378px;
             height: 260px;
             z-index: 1;
@@ -231,14 +231,15 @@
 
         <!-- Scene 2: speaker_on -->
         <div
-          class="reveal"
+          class="reveal glow-speaker-layer"
           data-reveal="iot-speaker"
           data-delay-ms="3600"
           data-neopixel-state="speaker_on"
+          data-hides=".glow-on-layer"
           style="
             position: absolute;
             left: 342px;
-            top: 617px;
+            top: 577px;
             width: 378px;
             height: 260px;
             z-index: 1;
@@ -272,14 +273,15 @@
 
         <!-- Scene 3: diffuser_on -->
         <div
-          class="reveal"
+          class="reveal glow-diffuser-layer"
           data-reveal="iot-diffuser"
           data-delay-ms="5600"
           data-neopixel-state="diffuser_on"
+          data-hides=".glow-speaker-layer"
           style="
             position: absolute;
             left: 342px;
-            top: 617px;
+            top: 577px;
             width: 378px;
             height: 260px;
             z-index: 1;
