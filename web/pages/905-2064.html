@@ -184,6 +184,7 @@
 
         <a
           class="btn btn-outline"
+          data-audio-stop
           href="./905-1679.html"
           style="
             position: absolute;
@@ -196,6 +197,7 @@
         >
         <a
           class="btn btn-outline"
+          data-audio-stop
           href="./913-2897.html"
           style="
             position: absolute;
@@ -206,6 +208,62 @@
           "
           >Next</a
         >
+        <script>
+          (() => {
+            // Put your local file under web/assets, e.g. web/assets/classical.mp3
+            const audioFile = "test.mp3";
+            let ws = null;
+            let stopSent = false;
+
+            function ensureWs() {
+              if (
+                ws &&
+                (ws.readyState === WebSocket.OPEN ||
+                  ws.readyState === WebSocket.CONNECTING)
+              ) {
+                return ws;
+              }
+              try {
+                ws = new WebSocket("ws://localhost:8787");
+              } catch {
+                ws = null;
+              }
+              return ws;
+            }
+
+            function sendAudio(payload) {
+              const sock = ensureWs();
+              if (!sock) return;
+              const msg = JSON.stringify(payload);
+              if (sock.readyState === WebSocket.OPEN) {
+                sock.send(msg);
+                return;
+              }
+              sock.addEventListener(
+                "open",
+                () => {
+                  sock.send(msg);
+                },
+                { once: true },
+              );
+            }
+
+            function stopAudio() {
+              if (stopSent) return;
+              stopSent = true;
+              sendAudio({ type: "audio:stop" });
+            }
+
+            sendAudio({ type: "audio:play", file: audioFile });
+
+            document.querySelectorAll("[data-audio-stop]").forEach((el) => {
+              el.addEventListener("click", () => stopAudio());
+            });
+
+            window.addEventListener("pagehide", stopAudio);
+            window.addEventListener("beforeunload", stopAudio);
+          })();
+        </script>
       </main>
     </div>
   </body>

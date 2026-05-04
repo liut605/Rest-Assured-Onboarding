@@ -333,6 +333,58 @@
             const cards = Array.from(document.querySelectorAll(".quiz-card"));
             const stage = document.querySelector(".stage");
             if (!cards.length || !stage) return;
+            const audioFile = "test.mp3";
+            const backBtn = document.querySelector('a[href="./1145-2426.html"]');
+            const nextBtn = document.querySelector('a[href="./1145-2392.html"]');
+            let ws = null;
+            let audioStarted = false;
+            let audioStopSent = false;
+
+            function ensureWs() {
+              if (
+                ws &&
+                (ws.readyState === WebSocket.OPEN ||
+                  ws.readyState === WebSocket.CONNECTING)
+              ) {
+                return ws;
+              }
+              try {
+                ws = new WebSocket("ws://localhost:8787");
+              } catch {
+                ws = null;
+              }
+              return ws;
+            }
+
+            function sendBridge(payload) {
+              const sock = ensureWs();
+              if (!sock) return;
+              const msg = JSON.stringify(payload);
+              if (sock.readyState === WebSocket.OPEN) {
+                sock.send(msg);
+                return;
+              }
+              sock.addEventListener(
+                "open",
+                () => {
+                  sock.send(msg);
+                },
+                { once: true },
+              );
+            }
+
+            function playAudio() {
+              if (audioStarted) return;
+              audioStarted = true;
+              audioStopSent = false;
+              sendBridge({ type: "audio:play", file: audioFile });
+            }
+
+            function stopAudio() {
+              if (!audioStarted || audioStopSent) return;
+              audioStopSent = true;
+              sendBridge({ type: "audio:stop" });
+            }
 
             cards.forEach((card) => {
               card.addEventListener("click", () => {
@@ -342,12 +394,18 @@
                 if (choice === "C") {
                   stage.setAttribute("data-quiz-state", "correct");
                   card.style.outline = "4px solid rgba(31, 118, 127, 0.65)";
+                  playAudio();
                 } else {
                   stage.setAttribute("data-quiz-state", "incorrect");
                   card.style.outline = "4px solid rgba(196, 38, 38, 0.8)";
                 }
               });
             });
+
+            if (backBtn) backBtn.addEventListener("click", () => stopAudio());
+            if (nextBtn) nextBtn.addEventListener("click", () => stopAudio());
+            window.addEventListener("pagehide", stopAudio);
+            window.addEventListener("beforeunload", stopAudio);
           })();
         </script>
       </main>

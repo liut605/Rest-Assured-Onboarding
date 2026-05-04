@@ -251,26 +251,70 @@
             const sceneOrder = ["a", "b", "c"];
             const getScene = () => flow.getAttribute("data-scene") || "a";
             const setScene = (scene) => flow.setAttribute("data-scene", scene);
+            const audioFile = "test.mp3";
             const nodeId =
               document.querySelector(".stage")?.getAttribute("data-node-id") ||
               undefined;
+            let ws = null;
+
+            function ensureWs() {
+              if (
+                ws &&
+                (ws.readyState === WebSocket.OPEN ||
+                  ws.readyState === WebSocket.CONNECTING)
+              ) {
+                return ws;
+              }
+              try {
+                ws = new WebSocket("ws://localhost:8787");
+              } catch {
+                ws = null;
+              }
+              return ws;
+            }
+
+            function sendBridge(payload) {
+              const sock = ensureWs();
+              if (!sock) return;
+              const msg = JSON.stringify(payload);
+              if (sock.readyState === WebSocket.OPEN) {
+                sock.send(msg);
+                return;
+              }
+              sock.addEventListener(
+                "open",
+                () => {
+                  sock.send(msg);
+                },
+                { once: true },
+              );
+            }
 
             function sendNeopixelState(state) {
               if (!state) return;
-              const payload = JSON.stringify({
+              sendBridge({
                 type: "neopixel:set",
                 state,
                 nodeId,
               });
-              try {
-                const sock = new WebSocket("ws://localhost:8787");
-                sock.addEventListener("open", () => {
-                  sock.send(payload);
-                  sock.close();
-                });
-              } catch {
-                // Ignore websocket failures in standalone demo mode.
+            }
+
+            function playFrame2Audio() {
+              sendBridge({ type: "audio:play", file: audioFile });
+            }
+
+            function stopFrame2Audio() {
+              sendBridge({ type: "audio:stop" });
+            }
+
+            function applyScene(nextScene) {
+              const prevScene = getScene();
+              if (prevScene === "b" && nextScene !== "b") {
+                stopFrame2Audio();
+              } else if (prevScene !== "b" && nextScene === "b") {
+                playFrame2Audio();
               }
+              setScene(nextScene);
             }
 
             nextBtn.addEventListener("click", (e) => {
@@ -285,7 +329,7 @@
                 } else if (current === "b" && nextScene === "c") {
                   sendNeopixelState("diffuser_on");
                 }
-                setScene(nextScene);
+                applyScene(nextScene);
               }
             });
 
@@ -294,8 +338,15 @@
               const idx = sceneOrder.indexOf(current);
               if (idx > 0) {
                 e.preventDefault();
-                setScene(sceneOrder[idx - 1]);
+                applyScene(sceneOrder[idx - 1]);
               }
+            });
+
+            window.addEventListener("pagehide", () => {
+              if (getScene() === "b") stopFrame2Audio();
+            });
+            window.addEventListener("beforeunload", () => {
+              if (getScene() === "b") stopFrame2Audio();
             });
           })();
         </script>
