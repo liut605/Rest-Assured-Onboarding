@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>1084:2408 + 1084:2996 — Combined login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../app.js"></script>
+    <script defer src="../interactions.js"></script>
+  </head>
+  <body>
+    <div class="viewport">
+      <main
+        class="stage fluid-login"
+        data-node-id="1084-2408-2996"
+        data-advance="none"
+        data-neopixel='{"state":"off"}'
+        style="background: #fbf7f2"
+      >
+        <style>
+          .fluid-login {
+            width: 100vw !important;
+            height: 100vh !important;
+            transform: none !important;
+            --sx: calc(100vw / 1728);
+            --sy: calc(100vh / 1117);
+          }
+
+          .login-shell {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: 52.7778vw 47.2222vw;
+          }
+
+          .login-left {
+            position: relative;
+            background: #fbf7f2;
+          }
+
+          .scene {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 180ms ease;
+          }
+
+          .login-left[data-scene="username"] .scene-username,
+          .login-left[data-scene="petname"] .scene-petname {
+            opacity: 1;
+            pointer-events: auto;
+          }
+
+          .login-progress {
+            position: absolute;
+            left: calc(143 * var(--sx));
+            top: calc(140 * var(--sy));
+            width: calc(560 * var(--sx));
+            height: calc(134 * var(--sy));
+          }
+
+          .login-progress .rail {
+            position: absolute;
+            left: 50px;
+            right: 50px;
+            top: 44px;
+            height: 2px;
+            background: #5ba9b4;
+          }
+
+          .login-progress .steps {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: space-between;
+          }
+
+          .login-progress .step {
+            width: calc(100 * var(--sx));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: #d9d9d9;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+          }
+
+          .login-progress .step .icon {
+            width: calc(100 * var(--sx));
+            height: calc(100 * var(--sy));
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+          }
+
+          .login-progress .step .label {
+            margin-top: -8px;
+            font-size: 28px;
+            line-height: 1;
+            font-weight: 700;
+            transform: scale(0.5);
+            transform-origin: top center;
+            white-space: nowrap;
+          }
+
+          .login-progress .step.is-current,
+          .login-progress .step.is-past {
+            color: #2d3030;
+          }
+
+          .login-progress .icon--current {
+            background-image: url("../assets/Progress-1-current.png");
+          }
+
+          .login-progress .icon--past {
+            background-image: url("../assets/Progress-1-past.png");
+          }
+
+          .login-progress .icon--future {
+            background-image: url("../assets/Progress-1-future.png");
+          }
+
+          .login-headshot {
+            position: absolute;
+            left: calc(371 * var(--sx));
+            top: calc(334 * var(--sy));
+            width: calc(191 * var(--sx));
+            height: calc(181 * var(--sy));
+          }
+
+          .login-prompt {
+            position: absolute;
+            left: calc(106 * var(--sx));
+            top: calc(552 * var(--sy));
+            width: calc(700 * var(--sx));
+            margin: 0;
+            font-size: calc(32 * var(--sx));
+            line-height: 1;
+            font-weight: 700;
+            color: #000;
+            white-space: nowrap;
+            text-align: center;
+          }
+
+          .login-input {
+            position: absolute;
+            left: calc(106 * var(--sx));
+            top: calc(632 * var(--sy));
+            width: calc(700 * var(--sx));
+            height: calc(74 * var(--sy));
+            border-radius: calc(37 * var(--sy));
+            border: 1px solid #212934;
+            background: #fff;
+            font-size: calc(20 * var(--sx));
+            padding: 0 calc(30 * var(--sx));
+            color: #2d3030;
+          }
+
+          .login-btn {
+            position: absolute;
+            left: calc(106 * var(--sx));
+            top: calc(737 * var(--sy));
+            width: calc(700 * var(--sx));
+            height: calc(74 * var(--sy));
+            border-radius: calc(37 * var(--sy));
+            border: 0;
+            background: #1f767f;
+            color: #f1edea;
+            font-size: calc(24 * var(--sx));
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .login-signin-row {
+            position: absolute;
+            left: calc(106 * var(--sx));
+            top: calc(883 * var(--sy));
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: calc(18 * var(--sx));
+            font-weight: 700;
+            white-space: nowrap;
+          }
+
+          .login-signin-row .signin-link {
+            color: #ef8c62;
+            text-decoration: none;
+          }
+
+          .login-right {
+            position: relative;
+            overflow: hidden;
+            background: #111;
+          }
+
+          .video-stack {
+            position: absolute;
+            inset: 0;
+          }
+
+          .video-half {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            opacity: 0;
+            transition: opacity 280ms ease;
+            pointer-events: none;
+            background: #111;
+          }
+
+          .video-half.is-active {
+            opacity: 1;
+          }
+
+          .video-half.half-left {
+            transform: scale(2.1);
+            transform-origin: left center;
+          }
+
+          .video-half.half-right {
+            transform: scale(2.1);
+            transform-origin: right center;
+          }
+
+          .right-copy {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 28px;
+            color: #fbf7f2;
+            text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+            pointer-events: none;
+          }
+
+          .right-copy h2 {
+            margin: 0;
+            font-family: "Playfair Display", serif;
+            font-size: calc(96 * var(--sx));
+            line-height: 1;
+            font-weight: 700;
+          }
+
+          .right-copy p {
+            margin: 12px 0 0;
+            font-family: Inter, system-ui, sans-serif;
+            font-size: calc(20 * var(--sx));
+            font-weight: 700;
+            white-space: nowrap;
+          }
+
+          .login-shell.is-exiting .login-left {
+            opacity: 0;
+            transition: opacity 220ms ease;
+          }
+        </style>
+
+        <section class="login-shell">
+          <div class="login-left" data-scene="username">
+            <nav class="login-progress" aria-label="Progress">
+              <div class="rail" aria-hidden="true"></div>
+              <div class="steps">
+                <button
+                  class="step is-current"
+                  data-step="username"
+                  type="button"
+                >
+                  <div class="icon icon--current" aria-hidden="true"></div>
+                  <div class="label">Username</div>
+                </button>
+                <div class="step is-future" data-step="petname">
+                  <div class="icon icon--future" aria-hidden="true"></div>
+                  <div class="label">Pet Name</div>
+                </div>
+              </div>
+            </nav>
+
+            <div class="scene scene-username">
+              <div class="login-headshot">
+                <img
+                  class="img img-contain"
+                  alt="Crimson headshot"
+                  src="../assets/crimson-headshot.png"
+                />
+              </div>
+              <p class="login-prompt">Woof! What is your name?</p>
+              <input
+                class="login-input"
+                value=""
+                placeholder="Your name here..."
+              />
+              <a class="login-btn" href="#" data-login-next
+                >Save &amp; Continue</a
+              >
+              <div class="login-signin-row">
+                <span>Already have an account?</span>
+                <a class="signin-link" href="#" data-no-advance>Sign in</a>
+              </div>
+            </div>
+
+            <div class="scene scene-petname">
+              <div class="login-headshot">
+                <img
+                  class="img img-contain"
+                  alt="Crimson headshot"
+                  src="../assets/crimson-headshot.png"
+                />
+              </div>
+              <p class="login-prompt">Woof! Then, what is MY name?</p>
+              <input class="login-input" value="Crimson" />
+              <a class="login-btn" href="./intro-video.html" data-login-finish
+                >Save &amp; Continue</a
+              >
+            </div>
+          </div>
+
+          <div class="login-right">
+            <div class="video-stack" aria-hidden="true">
+              <video
+                class="video-half half-left is-active"
+                src="../assets/teaser-1.mp4"
+                muted
+                playsinline
+                preload="auto"
+              ></video>
+              <video
+                class="video-half half-right"
+                src="../assets/teaser-1.mp4"
+                muted
+                playsinline
+                preload="auto"
+              ></video>
+              <video
+                class="video-half half-left"
+                src="../assets/teaser-2.mp4"
+                muted
+                playsinline
+                preload="auto"
+              ></video>
+              <video
+                class="video-half half-right"
+                src="../assets/teaser-2.mp4"
+                muted
+                playsinline
+                preload="auto"
+              ></video>
+            </div>
+            <div class="right-copy">
+              <h2>Rest Assured</h2>
+              <p>
+                Ambient Notification System for Remote Human-Dog Interaction
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <script>
+          (() => {
+            const root = document.querySelector(".login-left");
+            const shell = document.querySelector(".login-shell");
+            const rightPane = document.querySelector(".login-right");
+            const nextBtn = document.querySelector("[data-login-next]");
+            const finishBtn = document.querySelector("[data-login-finish]");
+            const usernameStep = root?.querySelector('[data-step="username"]');
+            const petnameStep = root?.querySelector('[data-step="petname"]');
+            let isExiting = false;
+            let isTransitionQueued = false;
+            const EXPAND_MS = 520;
+            const TEXT_LINGER_MS = 2000;
+
+            function renderStepState(scene) {
+              if (scene === "petname") {
+                if (usernameStep) {
+                  usernameStep.classList.remove("is-current");
+                  usernameStep.classList.add("is-past");
+                  const icon = usernameStep.querySelector(".icon");
+                  if (icon) icon.className = "icon icon--past";
+                }
+                if (petnameStep) {
+                  petnameStep.classList.remove("is-future");
+                  petnameStep.classList.add("is-current");
+                  const icon = petnameStep.querySelector(".icon");
+                  if (icon) icon.className = "icon icon--current";
+                }
+                return;
+              }
+
+              if (usernameStep) {
+                usernameStep.classList.remove("is-past");
+                usernameStep.classList.add("is-current");
+                const icon = usernameStep.querySelector(".icon");
+                if (icon) icon.className = "icon icon--current";
+              }
+              if (petnameStep) {
+                petnameStep.classList.remove("is-current");
+                petnameStep.classList.add("is-future");
+                const icon = petnameStep.querySelector(".icon");
+                if (icon) icon.className = "icon icon--future";
+              }
+            }
+
+            function setScene(scene) {
+              if (!root) return;
+              root.setAttribute("data-scene", scene);
+              renderStepState(scene);
+            }
+
+            if (root && nextBtn) {
+              nextBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                setScene("petname");
+              });
+            }
+
+            if (usernameStep) {
+              usernameStep.addEventListener("click", () => {
+                if (!root) return;
+                if (root.getAttribute("data-scene") !== "petname") return;
+                setScene("username");
+              });
+            }
+
+            function animateToIntro(href) {
+              if (isExiting) return;
+              isExiting = true;
+
+              if (!rightPane) {
+                window.location.href = href;
+                return;
+              }
+
+              shell?.classList.add("is-exiting");
+
+              const rect = rightPane.getBoundingClientRect();
+              const placeholder = document.createElement("div");
+              placeholder.style.width = `${rect.width}px`;
+              placeholder.style.height = `${rect.height}px`;
+              placeholder.style.pointerEvents = "none";
+              rightPane.parentNode?.insertBefore(placeholder, rightPane);
+
+              Object.assign(rightPane.style, {
+                position: "fixed",
+                left: `${rect.left}px`,
+                top: `${rect.top}px`,
+                width: `${rect.width}px`,
+                height: `${rect.height}px`,
+                margin: "0",
+                zIndex: "9999",
+                pointerEvents: "none",
+              });
+
+              window.requestAnimationFrame(() => {
+                rightPane.style.transition = `left ${EXPAND_MS}ms cubic-bezier(0.22, 0.61, 0.36, 1), width ${EXPAND_MS}ms cubic-bezier(0.22, 0.61, 0.36, 1)`;
+                rightPane.style.left = "0px";
+                rightPane.style.width = `${window.innerWidth}px`;
+              });
+
+              window.setTimeout(() => {
+                window.location.href = href;
+              }, EXPAND_MS + TEXT_LINGER_MS);
+            }
+
+            if (finishBtn) {
+              finishBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (isTransitionQueued || isExiting) return;
+                isTransitionQueued = true;
+                finishBtn.style.pointerEvents = "none";
+                const href =
+                  finishBtn.getAttribute("href") || "./intro-video.html";
+                animateToIntro(href);
+              });
+            }
+          })();
+        </script>
+
+        <script>
+          (() => {
+            const clips = Array.from(document.querySelectorAll(".video-half"));
+            if (!clips.length) return;
+
+            const CROSSFADE_MS = 280;
+            let current = 0;
+            let timer = null;
+
+            async function ensureReady(video) {
+              if (video.readyState >= 1 && Number.isFinite(video.duration))
+                return;
+              await Promise.race([
+                new Promise((resolve) => {
+                  video.addEventListener("loadedmetadata", resolve, {
+                    once: true,
+                  });
+                }),
+                new Promise((resolve) => {
+                  window.setTimeout(resolve, 1200);
+                }),
+              ]);
+            }
+
+            function clearTimer() {
+              if (timer != null) {
+                window.clearTimeout(timer);
+                timer = null;
+              }
+            }
+
+            function activate(index) {
+              clips.forEach((v, i) => {
+                v.classList.toggle("is-active", i === index);
+                if (i !== index) {
+                  try {
+                    v.pause();
+                  } catch {
+                    // ignore pause errors
+                  }
+                }
+              });
+            }
+
+            async function playAt(index) {
+              current = index;
+              const clip = clips[current];
+              await ensureReady(clip);
+              activate(current);
+              try {
+                clip.currentTime = 0;
+              } catch {
+                // ignore currentTime set errors on some streams
+              }
+              clip.play().catch(() => {});
+
+              const durationMs = Math.max(
+                400,
+                Math.round((clip.duration || 0.4) * 1000),
+              );
+              const holdMs = Math.max(80, durationMs - CROSSFADE_MS);
+
+              clearTimer();
+              timer = window.setTimeout(() => {
+                const next = (current + 1) % clips.length;
+                const nextClip = clips[next];
+                ensureReady(nextClip).then(() => {
+                  try {
+                    nextClip.currentTime = 0;
+                  } catch {
+                    // ignore currentTime set errors on some streams
+                  }
+                  nextClip.play().catch(() => {});
+                  playAt(next);
+                });
+              }, holdMs);
+            }
+
+            clips.forEach((clip) => {
+              clip.muted = true;
+              clip.playsInline = true;
+            });
+
+            ensureReady(clips[0]).then(() => {
+              playAt(0);
+            });
+
+            function nudgePlayback() {
+              const active = clips[current];
+              if (!active) return;
+              if (active.paused) {
+                active.play().catch(() => {});
+              }
+              if (timer == null) {
+                playAt(current);
+              }
+            }
+
+            document.addEventListener("visibilitychange", () => {
+              if (!document.hidden) nudgePlayback();
+            });
+            window.addEventListener("focus", nudgePlayback);
+            window.addEventListener("pageshow", nudgePlayback);
+
+            window.addEventListener("pagehide", () => {
+              clearTimer();
+              clips.forEach((v) => {
+                try {
+                  v.pause();
+                } catch {
+                  // ignore
+                }
+              });
+            });
+          })();
+        </script>
+      </main>
+    </div>
+  </body>
+</html>

@@ -211,16 +211,16 @@ window.addEventListener("DOMContentLoaded", () => {
       return;
     }
     const payload = JSON.stringify({
-    // Web -> bridge command for Arduino/ESP32 NeoPixel state updates.
+      // Web -> bridge command for Arduino/ESP32 NeoPixel state updates.
       type: "neopixel:set",
-    // States map to figurine/light modes (off/on/speaker_on/diffuser_on).
+      // States map to figurine/light modes (off/on/speaker_on/diffuser_on).
       state: normalizedState,
       nodeId: stage.getAttribute("data-node-id") || undefined,
     });
     if (DEBUG_SERIAL) console.log("[neopixel] send", payload);
     const sock = ensureWs();
     if (!sock) return;
-  // This WebSocket send is the browser-side signal dispatch toward Arduino.
+    // This WebSocket send is the browser-side signal dispatch toward Arduino.
     if (sock.readyState === WebSocket.OPEN) sock.send(payload);
     else wsQueue.push(payload);
   }

@@ -145,7 +145,12 @@ wss.on("connection", (ws) => {
         audioProc = null;
       });
       ws.send(
-        JSON.stringify({ type: "ack", for: "audio:play", ok: true, file: msg.file }),
+        JSON.stringify({
+          type: "ack",
+          for: "audio:play",
+          ok: true,
+          file: msg.file,
+        }),
       );
       return;
     }
@@ -184,11 +189,34 @@ if (port) {
     console.error(`Failed to open serial port: ${SERIAL_PATH}\n${err}\n`);
     console.error(
       `Detected ports:\n${ports
-        .map((p) => `- ${p.path}${p.manufacturer ? ` (${p.manufacturer})` : ""}`)
+        .map(
+          (p) => `- ${p.path}${p.manufacturer ? ` (${p.manufacturer})` : ""}`,
+        )
         .join("\n")}\n`,
     );
     console.error(
       `If Arduino Serial Monitor is open, close it and retry.\nThen run e.g.:\nSERIAL_PORT=/dev/cu.usbserial-XXXX npm start\nContinuing with WS/audio only.`,
     );
   });
+}
+
+const TuyAPI = require("tuyapi");
+
+const diffuser = new TuyAPI({
+  id: "eb07e6ad331f0a44dblrat",
+  key: "p5bt7bhUrX*wU4[]",
+});
+
+async function diffuserOn() {
+  await diffuser.find();
+  await diffuser.connect();
+  await diffuser.set({ dps: 1, set: true });
+  diffuser.disconnect();
+}
+
+async function diffuserOff() {
+  await diffuser.find();
+  await diffuser.connect();
+  await diffuser.set({ dps: 1, set: false });
+  diffuser.disconnect();
 }
