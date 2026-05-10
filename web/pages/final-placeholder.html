@@ -20,34 +20,275 @@
         class="stage"
         data-node-id="final-placeholder"
         data-advance="none"
+        data-neopixel='{"state":"off"}'
         style="background: #c4cecb"
       >
-        <div class="table" style="height: 454px" aria-hidden="true"></div>
+        <style>
+          .final-scenes {
+            position: absolute;
+            inset: 0;
+          }
+          .final-scene {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 130ms ease;
+          }
+          .final-scene.is-active {
+            opacity: 1;
+            pointer-events: auto;
+          }
+        </style>
 
-        <a
-          class="btn btn-outline"
-          href="./913-3324.html"
-          style="
-            position: absolute;
-            left: 100px;
-            top: 953px;
-            width: 375px;
-            z-index: 3;
-          "
-          >Back</a
-        >
-        <a
-          class="btn btn-outline"
-          href="./1019-2235.html"
-          style="
-            position: absolute;
-            left: 1253px;
-            top: 953px;
-            width: 375px;
-            z-index: 3;
-          "
-          >Next</a
-        >
+        <nav class="progress" aria-label="Progress">
+          <div class="rail" aria-hidden="true"></div>
+          <div class="steps">
+            <a
+              class="step step-link"
+              href="./intro-video.html"
+              title="Introduction"
+            >
+              <div class="icon icon--past" aria-hidden="true"></div>
+              <div class="label">Introduction</div>
+            </a>
+            <a class="step step-link" href="./795-889.html" title="Inspiration">
+              <div class="icon icon--past" aria-hidden="true"></div>
+              <div class="label">Inspiration</div>
+            </a>
+            <a class="step step-link" href="./795-1026.html" title="Ecosystem">
+              <div class="icon icon--past" aria-hidden="true"></div>
+              <div class="label">Ecosystem</div>
+            </a>
+            <a class="step step-link" href="./905-1679.html" title="Speaker">
+              <div class="icon icon--past" aria-hidden="true"></div>
+              <div class="label">Speaker</div>
+            </a>
+            <a class="step step-link" href="./809-2598.html" title="Diffuser">
+              <div class="icon icon--past" aria-hidden="true"></div>
+              <div class="label">Diffuser</div>
+            </a>
+            <a class="step step-link" href="./913-2849.html" title="Quiz time">
+              <div class="icon icon--past" aria-hidden="true"></div>
+              <div class="label">Quiz time</div>
+            </a>
+            <a
+              class="step step-link active"
+              href="#"
+              data-fin-reset
+              title="Fin"
+            >
+              <div class="icon icon--current" aria-hidden="true"></div>
+              <div class="label">Fin</div>
+            </a>
+          </div>
+        </nav>
+
+        <section class="final-scenes" aria-live="polite">
+          <div
+            class="final-scene is-active"
+            data-final-scene="0"
+            style="background: #e6e4de"
+          >
+            <div
+              class="table"
+              style="height: 454px; background: #a38b69"
+              aria-hidden="true"
+            ></div>
+            <h1
+              class="playfair"
+              style="
+                position: absolute;
+                left: 0;
+                top: 150px;
+                width: 1728px;
+                margin: 0;
+                font-size: 48px;
+                line-height: 1.2;
+                text-align: center;
+                color: #000;
+              "
+            >
+              See how easy it is to control the home environment for me?
+              <br />
+              Rest Assured, you are ready for taking the figurine
+              <br />
+              to your office/classroom for remote use!
+            </h1>
+            <div
+              style="
+                position: absolute;
+                left: 484px;
+                top: 426px;
+                width: 759.173px;
+                height: 473.491px;
+              "
+            >
+              <img
+                class="img img-contain"
+                alt="Figurine"
+                src="../assets/figurine.png"
+              />
+            </div>
+          </div>
+
+          <div
+            class="final-scene"
+            data-final-scene="1"
+            style="background: #e5feff"
+          >
+            <div
+              class="table"
+              style="height: 454px; background: #419342"
+              aria-hidden="true"
+            ></div>
+            <h1
+              class="playfair"
+              style="
+                position: absolute;
+                left: 0;
+                top: 150px;
+                width: 1728px;
+                margin: 0;
+                font-size: 48px;
+                line-height: 1.2;
+                text-align: center;
+                color: #000;
+              "
+            >
+              See how easy it is to control the home environment for me?
+              <br />
+              Rest Assured, you are ready for taking the figurine
+              <br />
+              to your office/classroom for remote use!
+            </h1>
+            <div
+              style="
+                position: absolute;
+                left: 484px;
+                top: 426px;
+                width: 759.173px;
+                height: 473.491px;
+              "
+            >
+              <img
+                class="img img-contain"
+                alt="Figurine"
+                src="../assets/figurine.png"
+              />
+            </div>
+          </div>
+
+          <div
+            class="final-scene"
+            data-final-scene="2"
+            style="background: #c4cecb"
+          >
+            <div
+              class="table"
+              style="height: 454px; background: #a38b69"
+              aria-hidden="true"
+            ></div>
+            <h1
+              class="playfair"
+              style="
+                position: absolute;
+                left: 0;
+                top: 150px;
+                width: 1728px;
+                margin: 0;
+                font-size: 48px;
+                line-height: 1.2;
+                text-align: center;
+                color: #000;
+              "
+            >
+              See how easy it is to control the home environment for me?
+              <br />
+              Rest Assured, you are ready for taking the figurine
+              <br />
+              to your office/classroom for remote use!
+            </h1>
+            <div
+              style="
+                position: absolute;
+                left: 484px;
+                top: 426px;
+                width: 759.173px;
+                height: 473.491px;
+              "
+            >
+              <img
+                class="img img-contain"
+                alt="Figurine"
+                src="../assets/figurine.png"
+              />
+            </div>
+          </div>
+        </section>
+
+        <script>
+          (() => {
+            const scenes = Array.from(
+              document.querySelectorAll("[data-final-scene]"),
+            );
+            const finReset = document.querySelector("[data-fin-reset]");
+            const stage = document.querySelector(".stage");
+            if (!scenes.length || !finReset || !stage) return;
+
+            let idx = 0;
+            let timer = null;
+            const SCENE_HOLD_MS = 2000;
+            const EXIT_DELAY_MS = 130;
+
+            function render() {
+              scenes.forEach((el, i) => {
+                el.classList.toggle("is-active", i === idx);
+                el.setAttribute("aria-hidden", i === idx ? "false" : "true");
+              });
+            }
+
+            function clearTimer() {
+              if (timer != null) {
+                window.clearTimeout(timer);
+                timer = null;
+              }
+            }
+
+            function goToLastProgressPage() {
+              stage.classList.add("is-leaving");
+              window.setTimeout(() => {
+                window.location.href = "./1019-2235.html";
+              }, EXIT_DELAY_MS);
+            }
+
+            function runAutoFlow() {
+              clearTimer();
+              timer = window.setTimeout(() => {
+                if (idx < scenes.length - 1) {
+                  idx += 1;
+                  render();
+                  runAutoFlow();
+                  return;
+                }
+                goToLastProgressPage();
+              }, SCENE_HOLD_MS);
+            }
+
+            function goStartOfPage() {
+              idx = 0;
+              render();
+              runAutoFlow();
+            }
+
+            finReset.addEventListener("click", (e) => {
+              e.preventDefault();
+              goStartOfPage();
+            });
+
+            runAutoFlow();
+          })();
+        </script>
       </main>
     </div>
   </body>

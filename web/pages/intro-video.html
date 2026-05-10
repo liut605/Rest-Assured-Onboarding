@@ -187,6 +187,11 @@
               setProgress(ratio * 100);
             }
 
+            function handleSeekEvent(e) {
+              if (typeof e.clientX !== "number") return;
+              seekFromClientX(e.clientX);
+            }
+
             function tryStartPlayback() {
               video.play().catch(() => {});
             }
@@ -209,23 +214,30 @@
               }
             });
 
-            progress.addEventListener("click", (e) => {
-              seekFromClientX(e.clientX);
+            video.addEventListener("loadedmetadata", () => {
+              setProgress(0);
             });
+
+            progress.addEventListener("click", handleSeekEvent);
 
             progress.addEventListener("pointerdown", (e) => {
+              e.preventDefault();
               isPointerDown = true;
-              seekFromClientX(e.clientX);
+              progress.setPointerCapture?.(e.pointerId);
+              handleSeekEvent(e);
             });
 
-            window.addEventListener("pointermove", (e) => {
+            progress.addEventListener("pointermove", (e) => {
               if (!isPointerDown) return;
-              seekFromClientX(e.clientX);
+              handleSeekEvent(e);
             });
 
-            window.addEventListener("pointerup", () => {
+            function stopSeek() {
               isPointerDown = false;
-            });
+            }
+            progress.addEventListener("pointerup", stopSeek);
+            progress.addEventListener("pointercancel", stopSeek);
+            progress.addEventListener("pointerleave", stopSeek);
 
             restartBtn.addEventListener("click", () => {
               video.currentTime = 0;

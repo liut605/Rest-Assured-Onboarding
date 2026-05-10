@@ -68,6 +68,7 @@ function normalizeProgressLabel(value) {
 
 function resolveProgressHref(stepEl) {
   if (!(stepEl instanceof Element)) return null;
+  if (stepEl.hasAttribute("data-fin-reset")) return null;
   const rawHref = String(stepEl.getAttribute("href") || "").trim();
   if (rawHref && rawHref !== "#" && !rawHref.startsWith("javascript:")) {
     return rawHref;
@@ -84,6 +85,7 @@ function resolveProgressHref(stepEl) {
     "try - diffuser": "./809-2598.html",
     "remind - light colors": "./913-2849.html",
     "quiz time": "./1144-2351.html",
+    fin: "./final-placeholder.html",
     "final scene": "./1019-2235.html",
   };
   return labelToHref[label] || null;
