@@ -4,6 +4,7 @@ import { ReadlineParser } from "serialport";
 import { spawn } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import TuyAPI from "tuyapi";
 
 const WS_PORT = Number(process.env.WS_PORT || "8787");
 const SERIAL_PATH = process.env.SERIAL_PORT || "";
@@ -199,8 +200,6 @@ if (port) {
     );
   });
 }
-
-const TuyAPI = require("tuyapi");
 
 const diffuser = new TuyAPI({
   id: "eb07e6ad331f0a44dblrat",
