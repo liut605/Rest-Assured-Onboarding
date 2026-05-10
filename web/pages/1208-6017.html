@@ -171,21 +171,43 @@
             if (!stage) return;
 
             let ws = null;
-            let pendingStates = [];
+            let pendingMessages = [];
             let correctShown = false;
+            const audioFile = "test.mp3";
+            const backBtn = document.querySelector('a[href="./1208-5974.html"]');
+            const nextBtn = document.querySelector('a[href="./1131-2711.html"]');
+            let audioStarted = false;
+            let audioStopSent = false;
 
-            function sendNeopixel(state) {
-              if (!state) return;
-              const payload = JSON.stringify({
-                type: "neopixel:set",
-                state,
-                nodeId: stage.getAttribute("data-node-id") || undefined,
-              });
+            function sendBridge(payloadObj) {
+              const payload = JSON.stringify(payloadObj);
               if (ws && ws.readyState === WebSocket.OPEN) {
                 ws.send(payload);
                 return;
               }
-              pendingStates.push(payload);
+              pendingMessages.push(payload);
+            }
+
+            function sendNeopixel(state) {
+              if (!state) return;
+              sendBridge({
+                type: "neopixel:set",
+                state,
+                nodeId: stage.getAttribute("data-node-id") || undefined,
+              });
+            }
+
+            function playAudio() {
+              if (audioStarted) return;
+              audioStarted = true;
+              audioStopSent = false;
+              sendBridge({ type: "audio:play", file: audioFile });
+            }
+
+            function stopAudio() {
+              if (!audioStarted || audioStopSent) return;
+              audioStopSent = true;
+              sendBridge({ type: "audio:stop" });
             }
 
             function isCapTouchSignal(line) {
@@ -225,13 +247,14 @@
               correctShown = true;
               stage.setAttribute("data-fill-state", "correct");
               sendNeopixel("speaker_on");
+              playAudio();
             }
 
             try {
               ws = new WebSocket("ws://localhost:8787");
               ws.addEventListener("open", () => {
-                for (const payload of pendingStates) ws.send(payload);
-                pendingStates = [];
+                for (const payload of pendingMessages) ws.send(payload);
+                pendingMessages = [];
               });
               ws.addEventListener("message", (ev) => {
                 let payload = null;
@@ -258,6 +281,11 @@
               if (e.key !== "[") return;
               showCorrect();
             });
+
+            if (backBtn) backBtn.addEventListener("click", () => stopAudio());
+            if (nextBtn) nextBtn.addEventListener("click", () => stopAudio());
+            window.addEventListener("pagehide", stopAudio);
+            window.addEventListener("beforeunload", stopAudio);
           })();
         </script>
       </main>

@@ -144,6 +144,91 @@
         <a class="btn btn-outline" href="./913-2911.html" style="position: absolute; left: 1253px; top: 953px; width: 375px; z-index: 3"
           >Next</a
         >
+        <script>
+          (() => {
+            const stage = document.querySelector(".stage");
+            if (!stage) return;
+            const nodeId = stage.getAttribute("data-node-id") || "905-2711";
+            let ws = null;
+            let holdTimer = null;
+            let stopped = false;
+
+            function ensureWs() {
+              if (
+                ws &&
+                (ws.readyState === WebSocket.OPEN ||
+                  ws.readyState === WebSocket.CONNECTING)
+              ) {
+                return ws;
+              }
+              try {
+                ws = new WebSocket("ws://localhost:8787");
+              } catch {
+                ws = null;
+              }
+              return ws;
+            }
+
+            function sendState(state) {
+              const payload = JSON.stringify({
+                type: "neopixel:set",
+                state,
+                nodeId,
+              });
+              const sock = ensureWs();
+              if (!sock) return;
+              if (sock.readyState === WebSocket.OPEN) {
+                sock.send(payload);
+                return;
+              }
+              if (sock.readyState === WebSocket.CONNECTING) {
+                sock.addEventListener(
+                  "open",
+                  () => {
+                    try {
+                      sock.send(payload);
+                    } catch {
+                      // ignore send failures
+                    }
+                  },
+                  { once: true },
+                );
+              }
+            }
+
+            function startHold() {
+              sendState("diffuser_on");
+              if (holdTimer != null) window.clearInterval(holdTimer);
+              holdTimer = window.setInterval(() => {
+                if (stopped) return;
+                if (document.visibilityState !== "visible") return;
+                sendState("diffuser_on");
+              }, 1200);
+            }
+
+            function stopHoldAndTurnOff() {
+              if (stopped) return;
+              stopped = true;
+              if (holdTimer != null) {
+                window.clearInterval(holdTimer);
+                holdTimer = null;
+              }
+              sendState("off");
+            }
+
+            document.querySelectorAll('a[href]').forEach((a) => {
+              a.addEventListener("click", stopHoldAndTurnOff);
+            });
+            window.addEventListener("pagehide", stopHoldAndTurnOff);
+            window.addEventListener("beforeunload", stopHoldAndTurnOff);
+            document.addEventListener("visibilitychange", () => {
+              if (stopped) return;
+              if (document.visibilityState === "visible") sendState("diffuser_on");
+            });
+
+            startHold();
+          })();
+        </script>
       </main>
     </div>
   </body>

@@ -5,10 +5,23 @@ import { spawn } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import TuyAPI from "tuyapi";
+import { TuyaContext } from "@tuya/tuya-connector-nodejs";
 
 const WS_PORT = Number(process.env.WS_PORT || "8787");
 const SERIAL_PATH = process.env.SERIAL_PORT || "";
 const BAUD_RATE = Number(process.env.BAUD_RATE || "115200");
+const TUYA_MODE = String(process.env.TUYA_MODE || "local")
+  .trim()
+  .toLowerCase();
+const TUYA_DEVICE_ID = process.env.TUYA_DEVICE_ID || "eb07e6ad331f0a44dblrat";
+const TUYA_DEVICE_KEY = process.env.TUYA_DEVICE_KEY || "p5bt7bhUrX*wU4[]";
+const TUYA_IP = process.env.TUYA_IP || "";
+const TUYA_VERSION = process.env.TUYA_VERSION || "3.3";
+const TUYA_ACCESS_KEY = process.env.TUYA_ACCESS_KEY || "";
+const TUYA_ACCESS_SECRET = process.env.TUYA_ACCESS_SECRET || "";
+const TUYA_CLOUD_BASE_URL =
+  process.env.TUYA_CLOUD_BASE_URL || "https://openapi.tuyaus.com";
+const TUYA_SWITCH_CODE = process.env.TUYA_SWITCH_CODE || "switch";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ASSETS_DIR = path.resolve(__dirname, "..", "web", "assets");
 let audioProc = null;
@@ -82,6 +95,18 @@ function normalizeState(state) {
   return allowed.has(v) ? v : null;
 }
 
+function logTuya(event, data) {
+  if (data === undefined) {
+    console.log(`[tuya] ${event}`);
+    return;
+  }
+  try {
+    console.log(`[tuya] ${event}`, JSON.stringify(data));
+  } catch {
+    console.log(`[tuya] ${event}`, data);
+  }
+}
+
 function stopAudio() {
   if (!audioProc) return;
   try {
@@ -119,6 +144,9 @@ wss.on("connection", (ws) => {
       // Serial protocol: "<state>\\n"
       // (matches Arduino-side line parsing; simplest for now)
       writeLine(state);
+      void applyDiffuserState(state === "diffuser_on").catch(() => {
+        // Tuya failures are logged in setDiffuserPower; keep WS bridge alive.
+      });
       ws.send(JSON.stringify({ type: "ack", for: "neopixel:set", state }));
       return;
     }
@@ -201,21 +229,193 @@ if (port) {
   });
 }
 
-const diffuser = new TuyAPI({
-  id: "eb07e6ad331f0a44dblrat",
-  key: "p5bt7bhUrX*wU4[]",
-});
+const diffuserConfigured = Boolean(TUYA_DEVICE_ID && TUYA_DEVICE_KEY);
+const diffuser = diffuserConfigured
+  ? new TuyAPI({
+      id: TUYA_DEVICE_ID,
+      key: TUYA_DEVICE_KEY,
+      ...(TUYA_IP ? { ip: TUYA_IP } : {}),
+      version: TUYA_VERSION,
+    })
+  : null;
 
-async function diffuserOn() {
-  await diffuser.find();
-  await diffuser.connect();
-  await diffuser.set({ dps: 1, set: true });
-  diffuser.disconnect();
+if (diffuserConfigured) {
+  logTuya("bridge:boot", {
+    mode: TUYA_MODE,
+    id: TUYA_DEVICE_ID,
+    ip: TUYA_IP || "auto-discovery",
+    version: TUYA_VERSION,
+  });
+} else {
+  logTuya(
+    "disabled",
+    "Missing TUYA_DEVICE_ID or TUYA_DEVICE_KEY (set env vars to enable diffuser control).",
+  );
 }
 
-async function diffuserOff() {
-  await diffuser.find();
-  await diffuser.connect();
-  await diffuser.set({ dps: 1, set: false });
-  diffuser.disconnect();
+if (diffuser) {
+  diffuser.on("error", (err) => {
+    logTuya("device:error", {
+      message: String(err?.message || err),
+      hint: "Local Tuya timeout is expected on hotspot/isolation networks; bridge will continue running.",
+    });
+  });
+}
+
+let tuyaLastAppliedState = null;
+let tuyaQueue = Promise.resolve();
+let tuyaPendingState = null;
+let tuyaPendingPromise = null;
+
+const cloudConfigured = Boolean(
+  TUYA_ACCESS_KEY && TUYA_ACCESS_SECRET && TUYA_DEVICE_ID,
+);
+const tuyaCloud = cloudConfigured
+  ? new TuyaContext({
+      baseUrl: TUYA_CLOUD_BASE_URL,
+      accessKey: TUYA_ACCESS_KEY,
+      secretKey: TUYA_ACCESS_SECRET,
+    })
+  : null;
+
+function withTimeout(promise, timeoutMs, label) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      setTimeout(() => {
+        reject(new Error(`${label} timed out after ${timeoutMs}ms`));
+      }, timeoutMs);
+    }),
+  ]);
+}
+
+async function setDiffuserPower(nextOn) {
+  if (!diffuser) return;
+  const verb = nextOn ? "on" : "off";
+  const startedAt = Date.now();
+  logTuya(`diffuser:${verb}:start`);
+  try {
+    if (!TUYA_IP) {
+      await withTimeout(diffuser.find(), 7000, "diffuser.find");
+      logTuya(`diffuser:${verb}:found`);
+    }
+    await withTimeout(diffuser.connect(), 8000, "diffuser.connect");
+    logTuya(`diffuser:${verb}:connected`);
+    await withTimeout(
+      diffuser.set({ dps: 1, set: nextOn }),
+      8000,
+      "diffuser.set",
+    );
+    logTuya(`diffuser:${verb}:set`, { dps: 1, set: nextOn });
+    logTuya(`diffuser:${verb}:done`, { elapsedMs: Date.now() - startedAt });
+  } catch (err) {
+    const message = String(err?.message || err);
+    logTuya(`diffuser:${verb}:error`, {
+      message,
+      hint: TUYA_IP
+        ? "Fixed IP is set. Verify diffuser IP is current and reachable."
+        : "Auto-discovery failed or local control unreachable. On hotspot/cellular networks, local Tuya control is commonly blocked.",
+    });
+    throw err;
+  } finally {
+    try {
+      diffuser.disconnect();
+    } catch {
+      // ignore disconnect failures
+    }
+  }
+}
+
+async function setDiffuserPowerCloud(nextOn) {
+  if (!tuyaCloud) {
+    throw new Error(
+      "Tuya cloud not configured. Set TUYA_ACCESS_KEY, TUYA_ACCESS_SECRET, TUYA_DEVICE_ID.",
+    );
+  }
+  const verb = nextOn ? "on" : "off";
+  const startedAt = Date.now();
+  logTuya(`cloud:${verb}:start`, {
+    baseUrl: TUYA_CLOUD_BASE_URL,
+    deviceId: TUYA_DEVICE_ID,
+    code: TUYA_SWITCH_CODE,
+  });
+  const body = {
+    commands: [{ code: TUYA_SWITCH_CODE, value: nextOn }],
+  };
+  const res = await withTimeout(
+    tuyaCloud.request({
+      method: "POST",
+      path: `/v1.0/iot-03/devices/${TUYA_DEVICE_ID}/commands`,
+      body,
+    }),
+    12000,
+    "tuyaCloud.request",
+  );
+  const success = Boolean(res?.success);
+  if (!success) {
+    const message = String(
+      res?.msg || res?.message || "Tuya cloud command failed",
+    );
+    const code = res?.code != null ? ` (${res.code})` : "";
+    throw new Error(`${message}${code}`);
+  }
+  logTuya(`cloud:${verb}:done`, { elapsedMs: Date.now() - startedAt });
+}
+
+async function setDiffuserPowerByMode(nextOn) {
+  if (TUYA_MODE === "cloud") {
+    await setDiffuserPowerCloud(nextOn);
+    return;
+  }
+  if (TUYA_MODE === "local") {
+    await setDiffuserPower(nextOn);
+    return;
+  }
+  // auto mode: local first, then cloud fallback
+  try {
+    await setDiffuserPower(nextOn);
+  } catch (localErr) {
+    logTuya("auto:local_failed", {
+      message: String(localErr?.message || localErr),
+      fallback: cloudConfigured ? "cloud" : "none",
+    });
+    if (!cloudConfigured) throw localErr;
+    await setDiffuserPowerCloud(nextOn);
+  }
+}
+
+function applyDiffuserState(nextOn) {
+  if (TUYA_MODE === "cloud" && !cloudConfigured) {
+    logTuya("cloud:disabled", "Missing cloud env vars.");
+    return Promise.resolve();
+  }
+  if (TUYA_MODE !== "cloud" && !diffuser) {
+    logTuya("local:disabled", "Missing local Tuya config.");
+    return Promise.resolve();
+  }
+  const desired = nextOn ? "on" : "off";
+  if (tuyaLastAppliedState === desired) {
+    logTuya("queue:dedupe_applied", { state: desired });
+    return Promise.resolve();
+  }
+  if (tuyaPendingState === desired && tuyaPendingPromise) {
+    logTuya("queue:dedupe_pending", { state: desired });
+    return tuyaPendingPromise;
+  }
+  tuyaPendingState = desired;
+  tuyaQueue = tuyaQueue
+    .catch(() => {
+      // keep queue alive after failures
+    })
+    .then(async () => {
+      await setDiffuserPowerByMode(nextOn);
+      tuyaLastAppliedState = desired;
+    });
+  tuyaPendingPromise = tuyaQueue.finally(() => {
+    if (tuyaPendingState === desired) {
+      tuyaPendingState = null;
+      tuyaPendingPromise = null;
+    }
+  });
+  return tuyaPendingPromise;
 }
