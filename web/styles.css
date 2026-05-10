@@ -309,11 +309,11 @@ body {
 }
 .crimson-frame--a {
   opacity: 1;
-  animation: crimsonA 3200ms ease-in-out infinite;
+  animation: crimsonA 1600ms ease-in-out infinite;
 }
 .crimson-frame--b {
   opacity: 0;
-  animation: crimsonB 3200ms ease-in-out infinite;
+  animation: crimsonB 1600ms ease-in-out infinite;
 }
 @keyframes crimsonA {
   0% {
@@ -478,9 +478,10 @@ body {
   height: 134px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 10px;
+  padding-top: 4px;
   text-align: center;
   font-weight: 700;
   font-size: 20px;
@@ -517,6 +518,11 @@ body {
   font-size: 14px;
   line-height: 1.1;
   font-weight: 700;
+  min-height: 30px;
+}
+
+.step .icon--future + .label {
+  color: #d9d9d9;
 }
 
 /* past sections */

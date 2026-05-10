@@ -59,6 +59,36 @@ function safeJsonParse(value) {
   }
 }
 
+function normalizeProgressLabel(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function resolveProgressHref(stepEl) {
+  if (!(stepEl instanceof Element)) return null;
+  const rawHref = String(stepEl.getAttribute("href") || "").trim();
+  if (rawHref && rawHref !== "#" && !rawHref.startsWith("javascript:")) {
+    return rawHref;
+  }
+
+  const label = normalizeProgressLabel(
+    stepEl.querySelector(".label")?.textContent || "",
+  );
+  const labelToHref = {
+    "intro video": "./intro-video.html",
+    "figurine motive": "./795-889.html",
+    "figurine iot": "./795-1026.html",
+    "try - speaker": "./905-1679.html",
+    "try - diffuser": "./809-2598.html",
+    "remind - light colors": "./913-2849.html",
+    "quiz time": "./1144-2351.html",
+    "final scene": "./1019-2235.html",
+  };
+  return labelToHref[label] || null;
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   const stage = document.querySelector(".stage");
   if (!stage) return;
@@ -502,6 +532,23 @@ window.addEventListener("DOMContentLoaded", () => {
   const advance = (stage.getAttribute("data-advance") || "click").toLowerCase();
 
   ensureWs();
+
+  // Make progress bars fully functional:
+  // clicking any step (including future/placeholder "#" steps) jumps to that stage.
+  const progressNav = stage.querySelector(".progress");
+  if (progressNav) {
+    progressNav.addEventListener("click", (e) => {
+      const stepLink =
+        e.target instanceof Element
+          ? e.target.closest(".step.step-link")
+          : null;
+      if (!stepLink) return;
+      const nextHref = resolveProgressHref(stepLink);
+      if (!nextHref) return;
+      e.preventDefault();
+      navigateWithTransition(nextHref);
+    });
+  }
 
   // Re-send current state when user returns to this page/tab.
   window.addEventListener("pageshow", () => reassertNeopixelState("pageshow"));
