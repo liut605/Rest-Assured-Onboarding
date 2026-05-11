@@ -118,14 +118,32 @@
           aria-hidden="true"
         >
           <div class="table" aria-hidden="true"></div>
-          <div style="position: absolute; left: 317px; top: 266px; width: 1059px; height: 660.491px">
-            <img class="img img-contain" alt="Figurine" src="../assets/figurine.png" />
+          <div
+            style="
+              position: absolute;
+              left: 317px;
+              top: 266px;
+              width: 1059px;
+              height: 660.491px;
+            "
+          >
+            <img
+              class="img img-contain"
+              alt="Figurine"
+              src="../assets/figurine.png"
+            />
           </div>
 
           <a
             class="btn btn-outline"
             href="./868-977.html"
-            style="position: absolute; left: 1253px; top: 953px; width: 375px; z-index: 3"
+            style="
+              position: absolute;
+              left: 1253px;
+              top: 953px;
+              width: 375px;
+              z-index: 3;
+            "
             >Next</a
           >
         </section>
@@ -136,7 +154,8 @@
             const nose = document.getElementById("nose-layer");
             const figurine = document.getElementById("figurine-layer");
             const progressScene = document.getElementById("progress-scene");
-            if (!blanket || !bed || !nose || !figurine || !progressScene) return;
+            if (!blanket || !bed || !nose || !figurine || !progressScene)
+              return;
 
             // After nose-under-blanket is fully revealed, remove blanket layer.
             window.setTimeout(() => {

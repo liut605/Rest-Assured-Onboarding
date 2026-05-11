@@ -64,8 +64,9 @@
             color: #000;
           "
         >
-        I’m back to bed now! You want to make sure I sleep even more soundly<br/>
-        with the diffuser. How do you turn the diffuser on?
+          I’m back to bed now! You want to make sure I sleep even more
+          soundly<br />
+          with the diffuser. How do you turn the diffuser on?
         </h1>
         <div
           class="type2-pending"
@@ -78,7 +79,11 @@
           "
         >
           <div style="position: absolute; inset: -25.62% -15.92%">
-            <img class="img img-contain" alt="Glow on" src="../assets/glow-on.png" />
+            <img
+              class="img img-contain"
+              alt="Glow on"
+              src="../assets/glow-on.png"
+            />
           </div>
         </div>
         <h1
@@ -109,7 +114,11 @@
           "
         >
           <div style="position: absolute; inset: -25.62% -15.92%">
-            <img class="img img-contain" alt="Glow" src="../assets/glow-diffuser.png" />
+            <img
+              class="img img-contain"
+              alt="Glow"
+              src="../assets/glow-diffuser.png"
+            />
           </div>
         </div>
 
@@ -122,7 +131,11 @@
             height: 473.491px;
           "
         >
-          <img class="img img-contain" alt="Figurine" src="../assets/figurine.png" />
+          <img
+            class="img img-contain"
+            alt="Figurine"
+            src="../assets/figurine.png"
+          />
         </div>
 
         <a
@@ -177,8 +190,8 @@
                 const j = JSON.parse(t);
                 return Boolean(
                   j &&
-                    typeof j === "object" &&
-                    (j.type === "button" || j.button === true),
+                  typeof j === "object" &&
+                  (j.type === "button" || j.button === true),
                 );
               } catch {
                 return false;
@@ -201,7 +214,8 @@
                 } catch {
                   return;
                 }
-                if (payload?.type !== "device:line" || payload.text == null) return;
+                if (payload?.type !== "device:line" || payload.text == null)
+                  return;
                 if (isButtonSignal(payload.text)) showCorrect();
               });
             } catch {
