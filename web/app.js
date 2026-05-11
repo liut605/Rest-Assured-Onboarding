@@ -12,9 +12,9 @@ function updateScale() {
   const vw = Math.max(320, vv?.width ?? window.innerWidth);
   const vh = Math.max(320, vv?.height ?? window.innerHeight);
 
-  // Default behavior is "contain" to avoid cropping on unknown monitor ratios.
-  // Opt into "cover" per-page with: <main class="stage" data-scale="cover" ...>
-  const mode = (stage.getAttribute("data-scale") || "contain").toLowerCase();
+  // Default behavior is now "cover" so screens fill the full viewport.
+  // Opt into "contain" per-page with: <main class="stage" data-scale="contain" ...>
+  const mode = (stage.getAttribute("data-scale") || "cover").toLowerCase();
   const containScale = Math.min(vw / BASE_W, vh / BASE_H);
   const coverScale = Math.max(vw / BASE_W, vh / BASE_H);
   const scale = mode === "cover" ? coverScale : containScale;

@@ -274,6 +274,18 @@
             opacity: 0;
             transition: opacity 220ms ease;
           }
+
+          /* During half->full transition, force video to overfill viewport. */
+          .login-right.is-expanding {
+            background: #000;
+          }
+
+          .login-right.is-expanding .video-half {
+            object-fit: cover !important;
+            object-position: center 56% !important;
+            transform: scale(2.35) !important;
+            transform-origin: center center !important;
+          }
         </style>
 
         <section class="login-shell">
@@ -451,6 +463,7 @@
               }
 
               shell?.classList.add("is-exiting");
+              rightPane.classList.add("is-expanding");
 
               const rect = rightPane.getBoundingClientRect();
               const placeholder = document.createElement("div");
