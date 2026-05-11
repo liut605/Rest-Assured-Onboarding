@@ -28,16 +28,40 @@
             position: absolute;
             inset: 0;
           }
-          .final-scene {
+          .final-backdrop {
             position: absolute;
             inset: 0;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 130ms ease;
+            transition: background-color 130ms cubic-bezier(0.22, 0.61, 0.36, 1);
+            will-change: background-color;
+            backface-visibility: hidden;
+            transform: translateZ(0);
           }
-          .final-scene.is-active {
-            opacity: 1;
-            pointer-events: auto;
+          .final-table-bg {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 454px;
+            transition: background-color 130ms cubic-bezier(0.22, 0.61, 0.36, 1);
+            will-change: background-color;
+          }
+          .final-copy {
+            position: absolute;
+            left: 0;
+            top: 150px;
+            width: 1728px;
+            margin: 0;
+            font-size: 48px;
+            line-height: 1.2;
+            text-align: center;
+            color: #000;
+          }
+          .final-figurine {
+            position: absolute;
+            left: 484px;
+            top: 426px;
+            width: 759.173px;
+            height: 473.491px;
           }
         </style>
 
@@ -85,156 +109,34 @@
         </nav>
 
         <section class="final-scenes" aria-live="polite">
-          <div
-            class="final-scene is-active"
-            data-final-scene="0"
-            style="background: #e6e4de"
-          >
-            <div
-              class="table"
-              style="height: 454px; background: #a38b69"
-              aria-hidden="true"
-            ></div>
-            <h1
-              class="playfair"
-              style="
-                position: absolute;
-                left: 0;
-                top: 150px;
-                width: 1728px;
-                margin: 0;
-                font-size: 48px;
-                line-height: 1.2;
-                text-align: center;
-                color: #000;
-              "
-            >
-              See how easy it is to control the home environment for me?
-              <br />
-              Rest Assured, you are ready for taking the figurine
-              <br />
-              to your office/classroom for remote use!
-            </h1>
-            <div
-              style="
-                position: absolute;
-                left: 484px;
-                top: 426px;
-                width: 759.173px;
-                height: 473.491px;
-              "
-            >
-              <img
-                class="img img-contain"
-                alt="Figurine"
-                src="../assets/figurine.png"
-              />
-            </div>
-          </div>
+          <div id="final-backdrop" class="final-backdrop" style="background: #e6e4de"></div>
+          <div id="final-table-bg" class="final-table-bg" style="background: #a38b69"></div>
 
-          <div
-            class="final-scene"
-            data-final-scene="1"
-            style="background: #e5feff"
-          >
-            <div
-              class="table"
-              style="height: 454px; background: #419342"
-              aria-hidden="true"
-            ></div>
-            <h1
-              class="playfair"
-              style="
-                position: absolute;
-                left: 0;
-                top: 150px;
-                width: 1728px;
-                margin: 0;
-                font-size: 48px;
-                line-height: 1.2;
-                text-align: center;
-                color: #000;
-              "
-            >
-              See how easy it is to control the home environment for me?
-              <br />
-              Rest Assured, you are ready for taking the figurine
-              <br />
-              to your office/classroom for remote use!
-            </h1>
-            <div
-              style="
-                position: absolute;
-                left: 484px;
-                top: 426px;
-                width: 759.173px;
-                height: 473.491px;
-              "
-            >
-              <img
-                class="img img-contain"
-                alt="Figurine"
-                src="../assets/figurine.png"
-              />
-            </div>
-          </div>
-
-          <div
-            class="final-scene"
-            data-final-scene="2"
-            style="background: #c4cecb"
-          >
-            <div
-              class="table"
-              style="height: 454px; background: #a38b69"
-              aria-hidden="true"
-            ></div>
-            <h1
-              class="playfair"
-              style="
-                position: absolute;
-                left: 0;
-                top: 150px;
-                width: 1728px;
-                margin: 0;
-                font-size: 48px;
-                line-height: 1.2;
-                text-align: center;
-                color: #000;
-              "
-            >
-              See how easy it is to control the home environment for me?
-              <br />
-              Rest Assured, you are ready for taking the figurine
-              <br />
-              to your office/classroom for remote use!
-            </h1>
-            <div
-              style="
-                position: absolute;
-                left: 484px;
-                top: 426px;
-                width: 759.173px;
-                height: 473.491px;
-              "
-            >
-              <img
-                class="img img-contain"
-                alt="Figurine"
-                src="../assets/figurine.png"
-              />
-            </div>
+          <h1 class="playfair final-copy">
+            See how easy it is to control the home environment for me?
+            <br />
+            Rest Assured, you are ready for taking the figurine
+            <br />
+            to your office/classroom for remote use!
+          </h1>
+          <div class="final-figurine">
+            <img class="img img-contain" alt="Figurine" src="../assets/figurine.png" />
           </div>
         </section>
 
         <script>
           (() => {
-            const scenes = Array.from(
-              document.querySelectorAll("[data-final-scene]"),
-            );
+            const backdrop = document.getElementById("final-backdrop");
+            const tableBg = document.getElementById("final-table-bg");
             const finReset = document.querySelector("[data-fin-reset]");
             const stage = document.querySelector(".stage");
-            if (!scenes.length || !finReset || !stage) return;
+            if (!backdrop || !tableBg || !finReset || !stage) return;
+
+            const palettes = [
+              { bg: "#e6e4de", table: "#a38b69" },
+              { bg: "#e5feff", table: "#419342" },
+              { bg: "#c4cecb", table: "#a38b69" },
+            ];
 
             let idx = 0;
             let timer = null;
@@ -242,10 +144,9 @@
             const EXIT_DELAY_MS = 130;
 
             function render() {
-              scenes.forEach((el, i) => {
-                el.classList.toggle("is-active", i === idx);
-                el.setAttribute("aria-hidden", i === idx ? "false" : "true");
-              });
+              const palette = palettes[idx] || palettes[0];
+              backdrop.style.backgroundColor = palette.bg;
+              tableBg.style.backgroundColor = palette.table;
             }
 
             function clearTimer() {
@@ -265,7 +166,7 @@
             function runAutoFlow() {
               clearTimer();
               timer = window.setTimeout(() => {
-                if (idx < scenes.length - 1) {
+                if (idx < palettes.length - 1) {
                   idx += 1;
                   render();
                   runAutoFlow();
