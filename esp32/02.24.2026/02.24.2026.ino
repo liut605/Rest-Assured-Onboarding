@@ -73,18 +73,17 @@ void awating (int delayTime = 5){
 void setup() {
   Serial.begin(115200);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
-  pinMode(PRESSURE_PIN, INPUT_PULLUP);
   pixels.begin();
   pixels.clear();
 }
 
 void loop() {
-  int pressureVal = analogRead(PRESSURE_PIN);
+  int pressureVal = touchRead(PRESSURE_PIN);
   int buttonState = digitalRead(BUTTON_PIN);
   //Serial.println(pressureVal);
   unsigned long now = millis();
   // ---------- Sensor -> Web events (no direct color change here) ----------
-  bool capActive = pressureVal > 0;
+  bool capActive = pressureVal < 1500;
   if (capActive && !capWasActive && (now - lastCapMs >= 200)) {
     Serial.println("CAP_TOUCH");
     lastCapMs = now;
