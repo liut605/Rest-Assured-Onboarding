@@ -4,6 +4,36 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Rest Assured — Figma Screens</title>
+    <script>
+      (function () {
+        const landingPath = "/pages/1084-2408-2996.html";
+        const debugPassword = "1634";
+        const normalizedPath =
+          window.location.pathname.replace(/\/+$/, "") || "/";
+        const isRoot = normalizedPath === "/";
+        const isDebugIndex = normalizedPath === "/index.html";
+
+        if (isRoot) {
+          window.location.replace(landingPath);
+          return;
+        }
+
+        if (isDebugIndex) {
+          const entered = window.prompt(
+            "Admin password required for debug index:",
+          );
+          if (entered !== debugPassword) {
+            window.location.replace(landingPath);
+            return;
+          }
+        } else {
+          window.location.replace(landingPath);
+          return;
+        }
+
+        document.documentElement.classList.add("debug-access-granted");
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,6 +53,9 @@
           sans-serif;
         background: #0b0b0b;
         color: #f6f6f6;
+      }
+      html:not(.debug-access-granted) body {
+        visibility: hidden;
       }
       main {
         max-width: 980px;
